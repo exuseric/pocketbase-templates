@@ -1,8 +1,13 @@
 ---
 import { Seo } from "astro-seo-meta";
-import { getSEO } from "../pb";
-// const data = await getSEO();
-const { Title, Description, Keywords, ThemeColor, SiteUrl, PublishedDate } = await getSEO();
+import { getSEO, getSiteDetails, getSiteNavigation } from "../pb";
+import MainNav from "../components/MainNav.astro";
+import MainFooter from '../components/MainFooter.astro';
+
+const { Title, Description, Keywords, ThemeColor, PublishedDate } = await getSEO();
+const {SiteName, SiteUrl, ParentSiteName, ParentSiteUrl, expand} = await getSiteDetails();
+const links = await getSiteNavigation();
+
 ---
 
 <html lang="en" style="scroll-behavior: smooth;">
@@ -67,10 +72,14 @@ const { Title, Description, Keywords, ThemeColor, SiteUrl, PublishedDate } = awa
 			rel="stylesheet"
 		/>
 	</head>
-	<body class="font-sans">
-		<header class="container p-4">
-			<h1 class="font-bold text-3xl text-center">Initial Commit</h1>
-		</header>
+	<body class="font-sans bg-white text-black dark:bg-neutral-950 dark:text-white">
+		<MainNav SiteName={SiteName} expand={expand} links={links}/>
+		<main class="min-h-screen">
+			<header class="container p-4">
+				<h1 class="font-bold text-3xl text-center">Initial Commit</h1>
+			</header>
+		</main>
+		<MainFooter SiteName={SiteName}, ParentSiteName={ParentSiteName} ParentSiteUrl={ParentSiteUrl}/>
 	</body>
 </html>
 

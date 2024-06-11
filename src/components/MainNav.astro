@@ -1,0 +1,126 @@
+---
+import { getSiteNavigation, getSiteDetails, pb } from "../pb";
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+
+
+const { SiteName, expand, links } = Astro.props
+
+let hasLogo = false
+let url = null
+
+if(expand?.SiteLogo) {
+    hasLogo = true
+    url = expand?.SiteLogo && pb.files.getUrl(expand.SiteLogo, expand.SiteLogo.Image, { thumb: "0x500" });
+}
+
+---
+
+<header
+    class="sticky top-0 z-50 flex flex-wrap px-4 sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-4 dark:bg-neutral-900"
+>
+    <nav
+        class="relative container mx-auto sm:flex sm:items-center sm:justify-between"
+        aria-label="Global"
+    >
+        <div class="flex items-center justify-between">
+            <a
+                class="inline-flex items-center gap-x-2 text-md w-max font-semibold dark:text-white"
+                href="/"
+            >
+                {
+                    hasLogo && (
+                        <Image
+                            style="max-width:40px;max-height:40px;object-position:center;object-fit:contain;"
+                            src={url}
+                            loading="eager"
+                            decoding="sync"
+                            alt={expand?.SiteLogo.ImageAlt}
+                            width={800}
+                            height={900}
+                        />
+                    )
+                }
+                <span class="text text-full">
+                    {SiteName}
+                </span>
+            </a>
+            <div class="sm:hidden">
+                <button
+                    id="menuToggle"
+                    type="button"
+                    class="p-2 inline-flex justify-center items-center gap-x-2 rounded-lg border border-none bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-white dark:hover:bg-white/10"
+                    data-hs-collapse="#navbar-links"
+                    aria-controls="navbar-links"
+                    aria-label="Toggle navigation"
+                >
+                    <Icon
+                        name="mdi:menu"
+                        aria-hidden="true"
+                        focusable="false"
+                        class="menuBtnToggleIcon nav--open flex-shrink-0 size-4"
+                    />
+                    <Icon
+                        name="mdi:close"
+                        aria-hidden="true"
+                        focusable="false"
+                        class="menuBtnToggleIcon nav--closed flex-shrink-0 size-4"
+                    />
+                </button>
+            </div>
+        </div>
+        <div
+            id="navbar-links"
+            class="sm:relative absolute bg-white text-black dark:bg-neutral-800 dark:text-white w-full 2xl:left-1/2 2xl:-translate-x-1/2 hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block"
+        >
+            <div
+                class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5"
+            >
+                {
+                    //@ts-ignore
+                    links && links.map((link, index) => (
+                        <a
+                            class={`capitalize font-bold hover:bg-blue-100 hover:text-black py-4 sm:py-1 px-2 ${index === links.length - 1 ? "bg-blue-500 text-white dark:bg-blue-200 dark:text-black" : "text-black dark:text-neutral-400 dark:hover:text-neutral-500"}`}
+                            href={
+                                index === 0
+                                    ? "/"
+                                    : `#${link.split(" ").join("-")}`
+                            }
+                        >
+                            {link}
+                        </a>
+                    ))
+                }
+            </div>
+        </div>
+    </nav>
+</header>
+
+<script>
+    const showBtn = document.querySelector("#menuToggle");
+
+    if (showBtn) {
+        showBtn.addEventListener("click", () => {
+            const nav = document.querySelector("#navbar-links");
+            if (nav) {
+                const icons = document.querySelectorAll(".menuBtnToggleIcon");
+                icons.forEach((icon) => {
+                    icon.classList.toggle("nav--closed");
+                });
+                // @ts-ignore
+                nav.classList.toggle("nav--open");
+            }
+            // HSCollapse.show("#navbar-links");
+        });
+    }
+</script>
+
+<style>
+    .nav--open {
+        display: block;
+    }
+
+    .nav--closed {
+        display: none;
+    }
+</style>
