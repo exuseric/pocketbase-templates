@@ -1,19 +1,19 @@
 import PocketBase from 'pocketbase';
 
-const landingPageId = '9t4jny3xul75053'
+const landingPageId = 'vlkmzic6vtf6wjd'
 const pb = new PocketBase('http://127.0.0.1:8090');
 const authData = await pb.admins.authWithPassword('eric.gathoni@yellowpageskenya.com', 'CDz5pFLmm3thaFZ');
 
 pb.authStore.isValid ? null : authData()
 
 
-function getImageUrl({collection, filename}) {
+function getImageUrl({ collection, filename }) {
     // Generate a URL for the file using the PocketBase API.
-    const url = pb.files.getUrl(collection, filename, {'thumb': '50x50'});
-    
+    const url = pb.files.getUrl(collection, filename);
+
     // Return the URL of the file.
     return url;
-} 
+}
 
 async function getRecord({ expand }) {
     try {
@@ -58,10 +58,22 @@ const getHero = async () => {
          * In this case, we want the "Hero" related record.
          * Assign it to the "hero" variable.
          */
-        const hero = record
+        const hero = record.expand.Hero
+
+        const mappedHero = Object.keys(hero).reduce((result, key) => {
+            if (key === 'expand') {
+                const expandKeys = Object.keys(hero[key]);
+                expandKeys.forEach((expandKey) => {
+                    result[expandKey] = hero[key][expandKey];
+                });
+            } else {
+                result[key] = hero[key];
+            }
+            return result;
+        }, {});
 
         // Return the Hero data.
-        return hero
+        return mappedHero
     } catch (error) {
         // If there was an error, return the error.
         return error
@@ -74,7 +86,7 @@ const getSiteNavigation = async () => {
         // The first argument is the ID of the record to retrieve.
         // The second argument is an options object with an optional "expand" property.
         // In this case, we want to expand the "SiteNavigation" related record.
-        const record = await getRecord({expand: ""})
+        const record = await getRecord({ expand: "" })
 
         /**
          * The retrieved record's "expand" property contains the expanded related records.
@@ -98,7 +110,7 @@ const getSiteDetails = async () => {
         // The first argument is the ID of the record to retrieve.
         // The second argument is an options object with an optional "expand" property.
         // In this case, we want to expand the "SiteDetails" related record.
-        const record = await getRecord({expand: "SiteDetails, SiteDetails.SiteLogo"})
+        const record = await getRecord({ expand: "SiteDetails, SiteDetails.SiteLogo" })
 
         /**
          * The retrieved record's "expand" property contains the expanded related records.

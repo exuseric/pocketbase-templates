@@ -1,13 +1,14 @@
 ---
 import { Seo } from "astro-seo-meta";
-import { getSEO, getSiteDetails, getSiteNavigation } from "../pb";
+import { getHero, getSEO, getSiteDetails, getSiteNavigation } from "../pb";
 import MainNav from "../components/MainNav.astro";
 import MainFooter from '../components/MainFooter.astro';
+import HeroSection from "../components/HeroSection.astro";
 
 const { Title, Description, Keywords, ThemeColor, PublishedDate } = await getSEO();
 const {SiteName, SiteUrl, ParentSiteName, ParentSiteUrl, expand} = await getSiteDetails();
+const hero = await getHero()
 const links = await getSiteNavigation();
-
 ---
 
 <html lang="en" style="scroll-behavior: smooth;">
@@ -75,9 +76,7 @@ const links = await getSiteNavigation();
 	<body class="font-sans bg-white text-black dark:bg-neutral-950 dark:text-white">
 		<MainNav SiteName={SiteName} expand={expand} links={links}/>
 		<main class="min-h-screen">
-			<header class="container p-4">
-				<h1 class="font-bold text-3xl text-center">Initial Commit</h1>
-			</header>
+			<HeroSection hero={hero}/>
 		</main>
 		<MainFooter SiteName={SiteName}, ParentSiteName={ParentSiteName} ParentSiteUrl={ParentSiteUrl}/>
 	</body>
