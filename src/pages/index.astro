@@ -1,0 +1,84 @@
+---
+import { Seo } from "astro-seo-meta";
+import { getSEO } from "../pb";
+// const data = await getSEO();
+const { Title, Description, Keywords, ThemeColor, SiteUrl, PublishedDate } = await getSEO();
+---
+
+<html lang="en" style="scroll-behavior: smooth;">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+
+		<Seo
+			title={Title}
+			description={Description}
+			keywords={[Keywords]}
+			themeColor={ThemeColor}
+			icon="/favicon/favicon.ico"
+			facebook={{
+				image: "/favicon/android-chrome-512x512.png",
+				url: SiteUrl,
+				type: "website",
+			}}
+			twitter={{
+				image: "/favicon/android-chrome-512x512.png",
+				site: "@yellowpages254",
+				card: "summary",
+			}}
+		/>
+		<!-- Canonical URL -->
+		<link rel="canonical" href={SiteUrl} />
+
+		<!-- Sitemap -->
+		<link
+			rel="sitemap"
+			type="application/xml"
+			title="Sitemap"
+			href={`${SiteUrl}/sitemap.xml`}
+		/>
+		<!-- Robots -->
+		<meta name="robots" content="index, follow" />
+		<!-- Site Published Date -->
+		<meta property="article:published_time" content={PublishedDate} />
+		<!-- Favicon -->
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="./favicon/apple-touch-icon.jpg"
+		/>
+		<link
+			rel="icon"
+			type="image/jpg"
+			sizes="32x32"
+			href="./favicon/favicon-32x32.jpg"
+		/>
+		<link
+			rel="icon"
+			type="image/jpg"
+			sizes="16x16"
+			href="./favicon/favicon-16x16.jpg"
+		/>
+		<link rel="manifest" href="./favicon/manifest.json" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body class="font-sans">
+		<header class="container p-4">
+			<h1 class="font-bold text-3xl text-center">Initial Commit</h1>
+		</header>
+	</body>
+</html>
+
+<style is:global>
+	* {
+		text-wrap: pretty;
+	}
+	h1, h2, h3, h4, h5, h6 {
+		text-wrap: balance;
+	}
+</style>
