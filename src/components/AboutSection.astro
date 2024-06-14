@@ -1,0 +1,36 @@
+---
+import { getImageUrl } from "../pb";
+import { Image } from "astro:assets";
+import SectionHeading from "./SectionHeading.astro";
+const { data } = Astro.props;
+const { SectionTitle, SectionExcerpt, SectionBody, expand } = data;
+---
+
+<section id="about" class="container my-16 mx-auto px-4 lg:my-20 scroll-m-24">
+  <div class="grid gap-10 lg:grid-cols-2 items-center justify-between">
+    <div class="lg:pr-10">
+      <SectionHeading sectionTitle={SectionTitle} excerpt={SectionExcerpt} />
+      <hr class="my-5 border-neutral-200" />
+      <div class="flex flex-col gap-2 max-w-prose">
+        <slot set:html={SectionBody} />
+      </div>
+    </div>
+    <div>
+      {
+        expand?.SectionImage && (
+          <Image
+            src={getImageUrl({
+              collection: expand?.SectionImage,
+              filename: expand?.SectionImage?.Image,
+            })}
+            widths={[240, 400, 600, 800, 1000]}
+            sizes={`(max-width: 360px) 240px, (max-width: 500px) 400px, (max-width: 768px) 600px, (max-width: 1024px) 800px, 1000px`}
+            inferSize
+            alt={expand?.SectionImage?.ImageAlt}
+            class="object-cover w-full h-56 sm:h-96"
+          />
+        )
+      }
+    </div>
+  </div>
+</section>

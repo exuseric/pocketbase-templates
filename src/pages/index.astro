@@ -1,14 +1,38 @@
 ---
 import { Seo } from "astro-seo-meta";
-import { getHero, getSEO, getSiteDetails, getSiteNavigation } from "../pb";
+import {
+	getHero,
+	getPages,
+	getSEO,
+	getSiteDetails,
+	getSiteNavigation,
+	getGallery,
+} from "../pb";
 import MainNav from "../components/MainNav.astro";
-import MainFooter from '../components/MainFooter.astro';
+import MainFooter from "../components/MainFooter.astro";
 import HeroSection from "../components/HeroSection.astro";
+import AboutSection from "../components/AboutSection.astro";
+import ServicesSection from "../components/ServicesSection.astro";
+import ContactSection from "../components/ContactSection.astro";
+import GallerySection from "../components/GallerySection.astro";
 
-const { Title, Description, Keywords, ThemeColor, PublishedDate } = await getSEO();
-const {SiteName, SiteUrl, ParentSiteName, ParentSiteUrl, expand} = await getSiteDetails();
-const hero = await getHero()
+const { Title, Description, Keywords, ThemeColor, PublishedDate } =
+	await getSEO();
+const {
+	SiteName,
+	SiteUrl,
+	ParentSiteName,
+	ParentSiteUrl,
+	expand,
+	IframeEmbed,
+} = await getSiteDetails();
+const hero = await getHero();
 const links = await getSiteNavigation();
+const pages = await getPages();
+const gallery = await getGallery();
+
+const checkTitle = ({ title, check }) =>
+	title.toLocaleLowerCase().includes(check);
 ---
 
 <html lang="en" style="scroll-behavior: smooth;">
@@ -73,20 +97,69 @@ const links = await getSiteNavigation();
 			rel="stylesheet"
 		/>
 	</head>
-	<body class="font-sans bg-white text-black dark:bg-neutral-950 dark:text-white">
-		<MainNav SiteName={SiteName} expand={expand} links={links}/>
+	<body
+		class="font-sans bg-white text-black dark:bg-neutral-950 dark:text-white"
+	>
+		<MainNav SiteName={SiteName} expand={expand} links={links} />
 		<main class="min-h-screen">
-			<HeroSection hero={hero}/>
-		</main>
-		<MainFooter SiteName={SiteName}, ParentSiteName={ParentSiteName} ParentSiteUrl={ParentSiteUrl}/>
-	</body>
-</html>
+			<HeroSection hero={hero} />
+			{
+				pages &&
+					pages.map(
+						(page) =>
+							checkTitle({
+								title: page.SectionTitle,
+								check: "about",
+							}) && <AboutSection data={page} />,
+					)
+			}
 
-<style is:global>
-	* {
-		text-wrap: pretty;
-	}
-	h1, h2, h3, h4, h5, h6 {
-		text-wrap: balance;
-	}
-</style>
+			{
+				pages &&
+					pages.map(
+						(page) =>
+							checkTitle({
+								title: page.SectionTitle,
+								check: "services",
+							}) && <ServicesSection data={page} />,
+					)
+			}
+
+			{
+				pages &&
+					pages.map(
+						(page) =>
+							checkTitle({
+								title: page.SectionTitle,
+								check: "contact",
+							}) && (
+								<ContactSection
+									data={page}
+									IframeSrc={IframeEmbed}
+								/>
+							),
+					)
+			}
+
+			{gallery && <GallerySection data={gallery} />}
+		</main>
+		<MainFooter
+			SiteName={SiteName}
+			,
+			ParentSiteName={ParentSiteName}
+			ParentSiteUrl={ParentSiteUrl}
+		/>
+	</body><style is:global>
+		* {
+			text-wrap: pretty;
+		}
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			text-wrap: balance;
+		}
+	</style>
+</html>

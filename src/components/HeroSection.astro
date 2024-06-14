@@ -10,12 +10,10 @@ const imageUrl = getImageUrl({
 ---
 
 <header
-    class="flex flex-col items-center justify-center px-4 pt-16 mx-auto sm:max-w-xl md:max-w-full lg:pt-32 md:px-0"
+    class="flex flex-col items-center justify-center px-4 pt-8 mx-auto sm:max-w-xl md:max-w-full lg:pt-16 md:px-0 scroll-m-24"
 >
     <div class="flex flex-col items-center max-w-2xl md:px-8">
-        <div
-            class="max-w-xl md:mx-auto sm:text-center lg:max-w-2xl"
-        >
+        <div class="max-w-xl md:mx-auto sm:text-center lg:max-w-2xl">
             <h1
                 class="max-w-lg mb-2 font-sans text-3xl font-bold leading-none tracking-tight sm:text-4xl md:mx-auto"
             >
@@ -46,11 +44,11 @@ const imageUrl = getImageUrl({
     <Image
         src={imageUrl}
         alt={hero?.Image?.ImageAlt}
-        widths={[200, 400, 600, 800]}
-        sizes={`(max-width: 360px) 240px, (max-width: 540px) 400px, (max-width: 720px) 600px, 800px`}
+        widths={[240, 400, 600, 800, 1000]}
+        sizes={`(max-width: 360px) 240px, (max-width: 500px) 400px, (max-width: 768px) 600px, (max-width: 1024px) 800px, 1000px`}
+        inferSize
         class="object-contain object-top w-full h-64 mx-auto xl:h-96 xl:mr-24"
         loading="eager"
         decoding="sync"
-        inferSize
     />
 </header>

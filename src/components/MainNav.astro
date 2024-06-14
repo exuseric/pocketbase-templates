@@ -3,17 +3,19 @@ import { getSiteNavigation, getSiteDetails, pb } from "../pb";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 
+const { SiteName, expand, links } = Astro.props;
 
-const { SiteName, expand, links } = Astro.props
+let hasLogo = false;
+let url = null;
 
-let hasLogo = false
-let url = null
-
-if(expand?.SiteLogo) {
-    hasLogo = true
-    url = expand?.SiteLogo && pb.files.getUrl(expand.SiteLogo, expand.SiteLogo.Image, { thumb: "0x500" });
+if (expand?.SiteLogo) {
+    hasLogo = true;
+    url =
+        expand?.SiteLogo &&
+        pb.files.getUrl(expand.SiteLogo, expand.SiteLogo.Image, {
+            thumb: "0x500",
+        });
 }
-
 ---
 
 <header
@@ -31,13 +33,15 @@ if(expand?.SiteLogo) {
                 {
                     hasLogo && (
                         <Image
-                            style="max-width:40px;max-height:40px;object-position:center;object-fit:contain;"
+                            id="logo_image"
+                            style="max-width:150px;height:100%;object-position:center;object-fit:contain;transition: max-width 0.3s ease;"
                             src={url}
                             loading="eager"
                             decoding="sync"
                             alt={expand?.SiteLogo.ImageAlt}
-                            width={800}
-                            height={900}
+                            widths={[240, 400, 600, 800, 1000]}
+                            sizes={`(max-width: 360px) 240px, (max-width: 500px) 400px, (max-width: 768px) 600px, (max-width: 1024px) 800px, 1000px`}
+                            inferSize
                         />
                     )
                 }
@@ -71,25 +75,26 @@ if(expand?.SiteLogo) {
         </div>
         <div
             id="navbar-links"
-            class="sm:relative absolute bg-white text-black dark:bg-neutral-800 dark:text-white w-full 2xl:left-1/2 2xl:-translate-x-1/2 hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block"
+            class="sm:relative absolute bg-white text-black dark:bg-neutral-900 dark:text-white w-full 2xl:left-1/2 2xl:-translate-x-1/2 hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block"
         >
             <div
                 class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5"
             >
                 {
                     //@ts-ignore
-                    links && links.map((link, index) => (
-                        <a
-                            class={`capitalize font-bold hover:bg-blue-100 hover:text-black py-4 sm:py-1 px-2 ${index === links.length - 1 ? "bg-blue-500 text-white dark:bg-blue-200 dark:text-black" : "text-black dark:text-neutral-400 dark:hover:text-neutral-500"}`}
-                            href={
-                                index === 0
-                                    ? "/"
-                                    : `#${link.split(" ").join("-")}`
-                            }
-                        >
-                            {link}
-                        </a>
-                    ))
+                    links &&
+                        links.map((link, index) => (
+                            <a
+                                class={`capitalize font-bold hover:bg-amber-100 hover:text-black py-4 sm:py-1 px-2 ${index === links.length - 1 ? "bg-amber-600 text-white dark:bg-amber-200 dark:text-black" : "text-black dark:text-neutral-400 dark:hover:text-neutral-500"}`}
+                                href={
+                                    index === 0
+                                        ? "/"
+                                        : `#${link.split(" ").join("-")}`
+                                }
+                            >
+                                {link}
+                            </a>
+                        ))
                 }
             </div>
         </div>
@@ -97,22 +102,40 @@ if(expand?.SiteLogo) {
 </header>
 
 <script>
-    const showBtn = document.querySelector("#menuToggle");
+    // Toggle the menu when the button is clicked
+    function toggleMenu() {
+        const showBtn = document.querySelector("#menuToggle");
+        if (showBtn) {
+            showBtn.addEventListener("click", () => {
+                const nav = document.querySelector("#navbar-links");
+                if (nav) {
+                    const icons =
+                        document.querySelectorAll(".menuBtnToggleIcon");
+                    icons.forEach((icon) => {
+                        icon.classList.toggle("nav--closed");
+                    });
+                    nav.classList.toggle("nav--open");
+                }
+            });
+        }
+    }
 
-    if (showBtn) {
-        showBtn.addEventListener("click", () => {
-            const nav = document.querySelector("#navbar-links");
-            if (nav) {
-                const icons = document.querySelectorAll(".menuBtnToggleIcon");
-                icons.forEach((icon) => {
-                    icon.classList.toggle("nav--closed");
-                });
-                // @ts-ignore
-                nav.classList.toggle("nav--open");
+    function shrinkNav() {
+        const logo = document.getElementById("logo_image");
+        const scrollPos = 0;
+        document.addEventListener("scroll", () => {
+            const y = window.scrollY;
+            if (y > 0) {
+                logo.style.maxWidth = "50px";
+            } else {
+                logo.style.maxWidth = "150px";
             }
-            // HSCollapse.show("#navbar-links");
         });
     }
+    document.addEventListener("DOMContentLoaded", () => {
+        toggleMenu();
+        shrinkNav();
+    });
 </script>
 
 <style>

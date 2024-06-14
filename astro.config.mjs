@@ -17,6 +17,9 @@ export default defineConfig({
   build: {
     assets: 'assets'
   },
+  image: {
+    domains: ["127.0.0.1"]
+  },
   compressHTML: false,
   integrations: [icon(), tailwind(), purgecss({
     fontFace: true,

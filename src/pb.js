@@ -135,7 +135,7 @@ const getPages = async () => {
         // The second argument is an options object with an optional "expand" property.
         // In this case, we want to expand the "Pages" related record,
         // and include the "Cards", "Cards.CardImage", and "SectionImage" related records.
-        const record = await getRecord({ expand: 'Pages, Pages.Cards, Pages.Cards.CardImage, Pages.SectionImage' })
+        const record = await getRecord({ expand: 'Pages, Pages.Cards, Pages.Cards.CardImage, Pages.VerticalCards, Pages.VerticalCards.CardImage, Pages.SectionImage' })
 
         // The retrieved record's "expand" property contains the expanded related records.
         // In this case, we want the "Pages" related record.
@@ -150,4 +150,14 @@ const getPages = async () => {
     }
 }
 
-export { pb, getRecord, getSEO, getHero, getSiteNavigation, getSiteDetails, getPages, getImageUrl }
+const getGallery = async() => {
+    try {
+        const record = await getRecord({ expand: 'Gallery, Gallery.Gallery' })
+        const gallery = record
+        return gallery
+    } catch (error) {
+        return error
+    }
+}
+
+export { pb, getRecord, getSEO, getHero, getSiteNavigation, getSiteDetails, getPages, getImageUrl, getGallery }

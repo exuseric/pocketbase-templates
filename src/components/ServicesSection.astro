@@ -1,0 +1,63 @@
+---
+import { Image } from "astro:assets";
+import { getImageUrl } from "../pb";
+import CardGrid from "./CardGrid.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const { data } = Astro.props;
+const { SectionTitle, SectionExcerpt, SectionBody, expand } = data;
+---
+
+<section
+    class="container my-16 mx-auto px-4 lg:my-20 scroll-m-24"
+    id="services"
+>
+    <SectionHeading sectionTitle={SectionTitle} excerpt={SectionExcerpt} />
+    <div class="grid gap-6 row-gap-5 lg:grid-cols-2">
+        {
+            expand?.VerticalCards &&
+                expand?.VerticalCards.map((card, index) => (
+                    <div class="grid gap-8 row-gap-5 md:grid-cols-1">
+                        <div class="relative flex flex-col h-full bg-white border border-amber-50 rounded-sm lg:items-center lg:flex-row max-w-prose">
+                            {card.CardImage && (
+                                <div class="lg:mb-0">
+                                    <div class="flex items-start justify-center w-full h-60 overflow-hidden rounded-md bg-indigo-50 lg:w-60 lg:h-40">
+                                        <Image
+                                            src={getImageUrl({
+                                                collection:
+                                                    card.expand.CardImage,
+                                                filename:
+                                                    card.expand.CardImage.Image,
+                                            })}
+                                            widths={[240, 400, 600, 800]}
+                                            sizes={`(max-width: 360px) 240px, (max-width: 500px) 400px, (max-width: 768px) 600px, 800px`}
+                                            inferSize
+                                            alt={card.expand.CardImage.ImageAlt}
+                                            loading="lazy"
+                                            decoding="async"
+                                            class={`object-cover bg-${card.expand.CardImage.Focus} w-full`}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                            <div class="flex flex-col justify-between flex-grow p-4">
+                                <h3 class="font-semibold leading-5">
+                                    {card.CardTitle}
+                                </h3>
+                                <slot set:html={card.CardBody} />
+                            </div>
+                        </div>
+                    </div>
+                ))
+        }
+    </div>
+    <!-- <hr class="my-5 border-neutral-200" /> -->
+    <div class="bg-neutral-50 mt-8 p-8 rounded-md">
+        <article class="container mx-auto">
+            <h3 class="text-lg m-0 mb-2 font-bold leading-none sm:text-2xl">
+                Our Packages
+            </h3>
+            {expand?.Cards && <CardGrid cards={expand?.Cards} />}
+        </article>
+    </div>
+</section>
