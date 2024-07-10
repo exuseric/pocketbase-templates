@@ -3,13 +3,30 @@ export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
 		container: {
-			center: true
+			center: true,
+			padding: '1rem'
 		},
 		fontFamily: {
-			sans: ['Work Sans', 'sans-serif'],
-			serif: ['Merriweather', 'serif']
+			sans: [ 'ui-sans-serif', 'system-ui','sans-serif'],
+			serif: ['serif']
 		},
-		extend: {},
+		extend: {
+			colors: {
+				primary: {
+					lighter: 'var(--primary-lighter)',
+					light: 'var(--primary-light)',
+					main: 'var(--primary)',
+					dark: 'var(--primary-dark)',
+					darker: 'var(--primary-darker)'
+				},
+				secondary: {
+					main: 'var(--secondary)'
+				},
+				tertiary: {
+					main: 'var(--tertiary)'
+				}
+			}
+		},
 	},
 	plugins: [],
 }

@@ -1,0 +1,60 @@
+---
+import IconButton from "../IconButton.astro";
+import Logo from "../Logo.astro";
+import { Icon } from "astro-icon/components";
+const { siteName, collection, logo, links } = Astro.props;
+---
+
+<header class="navbar sticky bg-neutral-100">
+    <div class="container navbar__top px-4 py-1 bg-neutral-300"></div>
+    <div
+        class="container navbar__bottom flex flex-row justify-between items-center px-4 py-2"
+    >
+        <Logo siteName={siteName} collection={collection} logo={logo} />
+
+        <div class="sm:hidden">
+            <button
+                id="menuToggle"
+                class="p-2 flex justify-center items-center rounded-sm border border-b-neutral-200 text-neutral-800"
+            >
+                <Icon
+                    name="mdi:menu"
+                    aria-hidden="true"
+                    focusable="false"
+                    class="menuBtnToggleIcon nav--open flex-shrink-0 size-4"
+                />
+                <Icon
+                    name="mdi:close"
+                    aria-hidden="true"
+                    focusable="false"
+                    class="menuBtnToggleIcon nav--closed flex-shrink-0 size-4"
+                />
+            </button>
+        </div>
+        <!-- Menu -->
+        <div
+            id="navbar__links"
+            class="sm:relative absolutetranslate-y-0 w-full sm:w-max left-0 p-4 shadow-md sm:shadow-none rounded-b-lg sm:rounded-none sm:p-0 hidden overflow-hidden transition-all duration-300 basis-full grow sm:block bg-inherit"
+        >
+            <menu
+                class="flex flex-col gap-5 mt-5 sm:flex-row sm:gap-2 sm:flex-wrap sm:justify-end sm:mt-0"
+            >
+                {
+                    links &&
+                        links.map((link: any, index: number) => (
+                            <a
+                                class={`capitalize font-bold hover:bg-secondary-main hover:text-white p-4 sm:px-4 sm:py-1 rounded-md ${index === links.length - 1 ? "bg-white text-neutral-900" : "text-current"}`}
+                                href={
+                                    index === 0
+                                        ? "/"
+                                        : `#${link.split(" ").join("-")}`
+                                }
+                            >
+                                {link}
+                            </a>
+                        ))
+                }
+            </menu>
+        </div>
+    </div>
+</header>

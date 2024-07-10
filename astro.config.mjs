@@ -1,13 +1,11 @@
 import { defineConfig } from 'astro/config';
-import { getSiteDetails } from './src/pb';
+import { getPage } from './src/pb';
 import icon from "astro-icon";
 import tailwind from "@astrojs/tailwind";
 import purgecss from "astro-purgecss";
 import sitemap from "@astrojs/sitemap";
-const {
-  SiteUrl
-} = await getSiteDetails();
-
+const {expand: {site_details: {url}}} = await getPage();
+const SiteUrl = url;
 
 // https://astro.build/config
 export default defineConfig({

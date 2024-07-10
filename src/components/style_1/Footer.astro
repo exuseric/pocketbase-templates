@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+import YPLogo from '../../img/Logo.webp'
+const { parentSiteTitle, parentSiteUrl, siteTitle, siteUrl } = Astro.props;
+
+console.log(siteTitle);
+---
+
+<footer class="py-12 bg-primary-main text-white text-sm">
+    <div class="container flex flex-col justify-center items-center gap-8">
+        <p>
+            Copyright &copy; {new Date().getFullYear()}
+            {siteTitle}. All Rights Reserved.
+        </p>
+        <a
+            href={parentSiteUrl}
+            class="container text-center flex flex-col justify-center items-center gap-2 w-fit border-b border-b-transparent hover:border-b-secondary-main hover:text-secondary-main"
+            aria-labelledby="yellow-pages"
+        >
+            <Image
+                src={YPLogo}
+                width={YPLogo.width}
+                height={YPLogo.height}
+                alt="Yellow Pages Logo"
+                class="object-contain object-center size-12"
+            />
+            <span id="yellow-pages">Designed by {parentSiteTitle}</span>
+        </a>
+    </div>
+</footer>

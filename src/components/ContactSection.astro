@@ -1,44 +1,30 @@
 ---
-import { Icon } from "astro-icon/components";
 import { Image } from "astro:assets";
 import SectionHeading from "./SectionHeading.astro";
 import { getImageUrl } from "../pb";
+import CustomImage from "./CustomImage.astro";
 
-let hasMedia = false;
-let url = null;
 const { data, IframeSrc } = Astro.props;
-const { SectionTitle, SectionExcerpt, SectionBody, SectionImage, expand } =
-    data;
-// if(expand?.SectionImage) {
-//     hasMedia = true
-//     url = pb.files.getUrl(expand.SectionImage, expand.SectionImage.Image, { thumb: "0x500" });
-// }
+const { title, excerpt, content, image, expand } = data;
 ---
 
 <section class="container px-4 my-16 scroll-m-24" id="contact">
-    <SectionHeading sectionTitle={SectionTitle} excerpt={SectionExcerpt} />
+    <SectionHeading sectionTitle={title} />
     <div class="sm:max-w-xl md:max-w-full lg:max-w-screen-xl">
         <div class="grid gap-10 lg:grid-cols-2">
             <div class="lg:pr-10">
-                <article class="max-w-prose">
-                    <slot set:html={SectionBody} />
+                <article class="max-w-prose flex flex-col gap-3">
+                    <p>{excerpt}</p>
+                    <slot set:html={content} />
                 </article>
             </div>
             <div class="max-w-prose">
                 {
                     expand ? (
-                        <Image
-                            src={getImageUrl({
-                                collection: expand?.SectionImage,
-                                filename: expand?.SectionImage?.Image,
-                            })}
-                            alt={expand?.SectionImage?.ImageAlt}
-                            widths={[240, 540, 800]}
-                            sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, 800px`}
-                            inferSize
-                            loading="lazy"
-                            decoding="async"
-                            class="object-cover w-full h-56 rounded shadow-lg sm:h-full"
+                        <CustomImage
+                            image={expand?.page_image}
+                            classes="object-cover w-full h-56 rounded shadow-lg sm:h-full"
+                            lazy={true}
                         />
                     ) : (
                         <iframe
@@ -47,7 +33,7 @@ const { SectionTitle, SectionExcerpt, SectionBody, SectionImage, expand } =
                             height="450"
                             style="border:0;"
                             allowfullscreen=""
-                            title={SectionTitle}
+                            title={title}
                             loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade"
                         />
@@ -57,7 +43,7 @@ const { SectionTitle, SectionExcerpt, SectionBody, SectionImage, expand } =
         </div>
         {
             IframeSrc ? (
-                SectionImage ? (
+                expand?.page_image ? (
                     <div class="border my-8">
                         <iframe
                             src={IframeSrc}
@@ -65,7 +51,7 @@ const { SectionTitle, SectionExcerpt, SectionBody, SectionImage, expand } =
                             height="300"
                             style="border:0;"
                             allowfullscreen=""
-                            title={SectionTitle}
+                            title={title}
                             loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade"
                         />

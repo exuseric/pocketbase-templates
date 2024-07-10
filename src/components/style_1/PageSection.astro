@@ -1,0 +1,56 @@
+---
+import SectionHeading from "../SectionHeading.astro";
+import CardGrid from "../CardGrid.astro";
+import { Icon } from "astro-icon/components";
+import CustomImage from "../CustomImage.astro";
+const { page, pageId, highlight, hasValues, values } = Astro.props;
+
+---
+
+<section id={pageId} class={`${highlight && "bg-primary-main"} scroll-m-24`}>
+    <div class="container py-12">
+        <SectionHeading
+            sectionTitle={page?.title}
+            textColor={`${highlight && "text-neutral-50"}`}
+        />
+        {
+            page?.expand?.card_grid && page.expand.card_grid.length > 0 && (
+                <CardGrid cards={page?.expand?.card_grid} />
+            )
+        }
+        <div class="grid gap-10 lg:grid-cols-2 items-center justify-between">
+            <div
+                class={`content max-w-prose py-8 leading-relaxed flex flex-col gap-3 ${highlight && "text-white"}`}
+            >
+                {page?.content.length > 0 && <slot set:html={page?.content} />}
+            </div>
+            {
+                page?.expand?.page_image && (
+                    <div class="w-full h-full rounded-md overflow-hidden">
+                        <CustomImage image={page?.expand?.page_image} classes="object-cover w-full h-full" lazy={true}/>
+                    </div>
+                )
+            }
+        </div>
+        {
+            hasValues && (
+                <div class="container max-w-max bg-primary-main text-neutral-50 rounded-md my-12 py-8 px-12 flex items-center justify-center">
+                    <ul class="flex flex-row flex-wrap justify-start sm:justify-between items-center sm:flex-row gap-8">
+                        {values &&
+                            values.split(",").map((value: string) => (
+                                <li class="flex flex-col items-start sm:items-center gap-1 py-1 px-0 font-bold rounded-full w-fit">
+                                    <Icon
+                                        name="mdi:check-circle"
+                                        aria-hidden="true"
+                                        focusable="false"
+                                        class="text-2xl"
+                                    />
+                                    <span class="text-md">{value}</span>
+                                </li>
+                            ))}
+                    </ul>
+                </div>
+            )
+        }
+    </div>
+</section>

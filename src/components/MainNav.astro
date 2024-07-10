@@ -1,25 +1,13 @@
 ---
-import { getSiteNavigation, getSiteDetails, pb } from "../pb";
+import { getImageUrl } from "../pb";
 import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 
-const { SiteName, expand, links } = Astro.props;
-
-let hasLogo = false;
-let url = null;
-
-if (expand?.SiteLogo) {
-    hasLogo = true;
-    url =
-        expand?.SiteLogo &&
-        pb.files.getUrl(expand.SiteLogo, expand.SiteLogo.Image, {
-            thumb: "0x500",
-        });
-}
+const { siteName, collection, links, logo } = Astro.props;
 ---
 
 <header
-    class="sticky top-0 z-50 flex flex-wrap px-4 sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-4 dark:bg-neutral-900"
+    class="sticky top-0 z-50 flex flex-wrap px-4 sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-4"
 >
     <nav
         class="relative container mx-auto sm:flex sm:items-center sm:justify-between"
@@ -27,18 +15,21 @@ if (expand?.SiteLogo) {
     >
         <div class="flex items-center justify-between">
             <a
-                class="inline-flex items-center gap-x-2 text-md w-max font-semibold dark:text-white"
+                class="inline-flex items-center gap-x-2 text-md w-max font-semibold"
                 href="/"
             >
                 {
-                    hasLogo && (
+                    logo !== '' && (
                         <Image
                             id="logo_image"
-                            style="max-width:150px;height:100%;object-position:center;object-fit:contain;transition: max-width 0.3s ease;"
-                            src={url}
+                            style="max-width:100px;height:100%;object-position:center;object-fit:contain;transition: max-width 0.3s ease;"
+                            src={getImageUrl({
+                                collection: collection,
+                                filename: logo,
+                            })}
                             loading="eager"
                             decoding="sync"
-                            alt={expand?.SiteLogo.ImageAlt}
+                            alt={siteName}
                             widths={[240, 400, 600, 800, 1000]}
                             sizes={`(max-width: 360px) 240px, (max-width: 500px) 400px, (max-width: 768px) 600px, (max-width: 1024px) 800px, 1000px`}
                             inferSize
@@ -46,16 +37,15 @@ if (expand?.SiteLogo) {
                     )
                 }
                 <span class="text text-full">
-                    {SiteName}
+                    {siteName}
                 </span>
             </a>
             <div class="sm:hidden">
                 <button
                     id="menuToggle"
                     type="button"
-                    class="p-2 inline-flex justify-center items-center gap-x-2 rounded-lg border border-none bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-white dark:hover:bg-white/10"
-                    data-hs-collapse="#navbar-links"
-                    aria-controls="navbar-links"
+                    class="p-2 inline-flex justify-center items-center gap-x-2 rounded-lg border border-none bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                    aria-controls="navbar_links"
                     aria-label="Toggle navigation"
                 >
                     <Icon
@@ -74,18 +64,18 @@ if (expand?.SiteLogo) {
             </div>
         </div>
         <div
-            id="navbar-links"
-            class="sm:relative absolute bg-white text-black dark:bg-neutral-900 dark:text-white w-full 2xl:left-1/2 2xl:-translate-x-1/2 hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block"
+            id="navbar_links"
+            class="sm:relative absolute bg-white text-neutral-900 w-full 2xl:left-1/2 2xl:-translate-x-1/2 hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block"
         >
             <div
-                class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5"
+                class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:px-5"
             >
                 {
                     //@ts-ignore
                     links &&
                         links.map((link, index) => (
                             <a
-                                class={`capitalize font-bold hover:bg-amber-100 hover:text-black py-4 sm:py-1 px-2 ${index === links.length - 1 ? "bg-amber-600 text-white dark:bg-amber-200 dark:text-black" : "text-black dark:text-neutral-400 dark:hover:text-neutral-500"}`}
+                                class={`capitalize font-bold hover:bg-amber-100 hover:text-neutral-900 py-4 sm:py-1 px-2 ${index === links.length - 1 ? "bg-amber-600 text-white" : "text-neutral-900"}`}
                                 href={
                                     index === 0
                                         ? "/"
@@ -107,7 +97,7 @@ if (expand?.SiteLogo) {
         const showBtn = document.querySelector("#menuToggle");
         if (showBtn) {
             showBtn.addEventListener("click", () => {
-                const nav = document.querySelector("#navbar-links");
+                const nav = document.querySelector("#navbar_links");
                 if (nav) {
                     const icons =
                         document.querySelectorAll(".menuBtnToggleIcon");
@@ -122,13 +112,12 @@ if (expand?.SiteLogo) {
 
     function shrinkNav() {
         const logo = document.getElementById("logo_image");
-        const scrollPos = 0;
         document.addEventListener("scroll", () => {
             const y = window.scrollY;
-            if (y > 0) {
+            if (y > 100) {
                 logo.style.maxWidth = "50px";
             } else {
-                logo.style.maxWidth = "150px";
+                logo.style.maxWidth = "100px";
             }
         });
     }
@@ -147,3 +136,4 @@ if (expand?.SiteLogo) {
         display: none;
     }
 </style>
+

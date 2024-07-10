@@ -1,0 +1,14 @@
+---
+import CardGrid from "../CardGrid.astro";
+import SectionHeading from "../SectionHeading.astro";
+const {data} = Astro.props
+const card_grid = data?.expand?.card_grid
+console.log(card_grid)
+---
+
+<section class="product" id="products">
+    <div class="container py-12">
+        <SectionHeading sectionTitle={data?.title} />
+        <CardGrid cards={card_grid} />
+    </div>
+</section>

@@ -1,0 +1,19 @@
+---
+import CustomImage from "../CustomImage.astro";
+const { hero } = Astro.props;
+const image = hero.expand.image;
+---
+
+<header class="border-none bg-white text-neutral-900">
+    <div class="container py-24 grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <article class="sm:px-12 self-center text-inherit max-w-prose">
+            <h1 class="text-2xl sm:text-4xl font-bold mb-2">{hero.title}</h1>
+            <p>{hero.excerpt}</p>
+        </article>
+        <CustomImage
+            image={image}
+            classes="object-cover object-center border-8 border-primary-main"
+            lazy={false}
+        />
+    </div>
+</header>

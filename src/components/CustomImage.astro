@@ -1,0 +1,20 @@
+---
+import { Image } from "astro:assets";
+import { getImageUrl } from "../pb";
+const { classes, image, lazy } = Astro.props;
+---
+
+<Image
+    src={getImageUrl({
+        collection: image,
+        filename: image?.image,
+    })}
+    widths={[240, 400, 600, 800, 1000]}
+    sizes={`(max-width: 360px) 240px, (max-width: 500px) 400px, (max-width: 768px) 600px, (max-width: 1024px) 800px, 1000px`}
+    inferSize
+    alt={image?.alt}
+    title={image?.title}
+    loading={lazy ? "lazy" : "eager"}
+    decoding={lazy ? "async" : "sync"}
+    class={`${classes} object-${image?.focus}`}
+/>

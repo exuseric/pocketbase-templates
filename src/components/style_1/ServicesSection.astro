@@ -1,0 +1,12 @@
+---
+import CardGrid from "../CardGrid.astro";
+import SectionHeading from "../SectionHeading.astro";
+const {data} = Astro.props
+---
+
+<section class="services bg-primary-light" id="services">
+    <div class="container py-12">
+        <SectionHeading sectionTitle={data?.title} textColor="text-white"/>
+        <CardGrid cards={data?.expand?.card_grid} />
+    </div>
+</section>

@@ -1,0 +1,32 @@
+---
+import { Icon } from "astro-icon/components";
+const { iconName, isMenuToggle } = Astro.props;
+---
+
+<button id="menuToggle" type="button" class="p-2 flex justify-center items-center rounded-md border border-none bg-primary-light text-white active:bg-secondary-main disabled:opacity-0 disabled:pointer-events-none" aria-label="Toggle Mobile Menu">
+    {
+        isMenuToggle ? (
+            <>
+                <Icon
+                    name="mdi:menu"
+                    aria-hidden="true"
+                    focusable="false"
+                    class="menuBtnToggleIcon nav--open flex-shrink-0 size-4"
+                />
+                <Icon
+                    name="mdi:close"
+                    aria-hidden="true"
+                    focusable="false"
+                    class="menuBtnToggleIcon nav--closed flex-shrink-0 size-4"
+                />
+            </>
+        ) : (
+            <Icon
+                name={iconName}
+                aria-hidden="true"
+                focusable="false"
+                class="nav--open flex-shrink-0 size-4"
+            />
+        )
+    }
+</button>

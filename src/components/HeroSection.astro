@@ -2,53 +2,22 @@
 import { Image, getImage } from "astro:assets";
 import { getImageUrl } from "../pb";
 import { Icon } from "astro-icon/components";
-const { hero } = Astro.props;
-const imageUrl = getImageUrl({
-    collection: hero?.Image,
-    filename: hero?.Image?.Image,
-});
+import Vertical from "./hero/Vertical.astro";
+import Horizontal from "./hero/Horizontal.astro";
+import HorizontalStylised from "./hero/HorizontalStylised.astro";
+const { hero, values } = Astro.props;
+
+console.log(hero)
 ---
 
-<header
-    class="flex flex-col items-center justify-center px-4 pt-8 mx-auto sm:max-w-xl md:max-w-full lg:pt-16 md:px-0 scroll-m-24"
->
-    <div class="flex flex-col items-center max-w-2xl md:px-8">
-        <div class="max-w-xl md:mx-auto sm:text-center lg:max-w-2xl">
-            <h1
-                class="max-w-lg mb-2 font-sans text-3xl font-bold leading-none tracking-tight sm:text-4xl md:mx-auto"
-            >
-                {hero?.Title}
-            </h1>
-            <p class="text-base md:text-lg">
-                {hero?.Description}
-            </p>
-        </div>
-        <ul
-            class="container flex flex-col md:flex-row items-center justify-between py-2 gap-2 border-t border-t-neutral-400 border-b border-b-neutral-400 max-w-prose my-4"
-        >
-            {
-                hero?.CoreValues &&
-                    hero?.CoreValues.split(",").map((value) => (
-                        <li class="flex flex-col items-center gap-1 px-4 py-2  text-base font-semibold">
-                            <Icon
-                                name="mdi:check-circle"
-                                aria-hidden="true"
-                                focusable="false"
-                            />
-                            {value}
-                        </li>
-                    ))
-            }
-        </ul>
-    </div>
-    <Image
-        src={imageUrl}
-        alt={hero?.Image?.ImageAlt}
-        widths={[240, 400, 600, 800, 1000]}
-        sizes={`(max-width: 360px) 240px, (max-width: 500px) 400px, (max-width: 768px) 600px, (max-width: 1024px) 800px, 1000px`}
-        inferSize
-        class="object-contain object-top w-full h-64 mx-auto xl:h-96 xl:mr-24"
-        loading="eager"
-        decoding="sync"
-    />
-</header>
+{hero.version.toLocaleLowerCase().trim() === "vertical" && (
+    <Vertical hero={hero} values={values}/>
+)}
+
+{hero.version.toLocaleLowerCase().trim() === "horizontal" && (
+    <Horizontal hero={hero} values={values}/>
+)}
+
+{hero.version.toLocaleLowerCase().trim() === "horizontal stylised" && (
+    <HorizontalStylised hero={hero} values={values}/>
+)}
