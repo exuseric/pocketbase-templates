@@ -6,7 +6,7 @@ const { parentSiteTitle, parentSiteUrl, siteTitle, siteUrl } = Astro.props;
 console.log(siteTitle);
 ---
 
-<footer class="py-12 bg-primary-main text-white text-sm">
+<footer class="py-12 bg-primary-lighter text-white text-sm">
     <div class="container flex flex-col justify-center items-center gap-8">
         <p>
             Copyright &copy; {new Date().getFullYear()}
@@ -14,7 +14,7 @@ console.log(siteTitle);
         </p>
         <a
             href={parentSiteUrl}
-            class="container text-center flex flex-col justify-center items-center gap-2 w-fit border-b border-b-transparent hover:border-b-secondary-main hover:text-secondary-main"
+            class="container text-center flex flex-col justify-center items-center gap-2 w-fit border-b border-b-transparent hover:border-b-secondary-darker hover:text-secondary-darker"
             aria-labelledby="yellow-pages"
         >
             <Image

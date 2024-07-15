@@ -1,7 +1,7 @@
 ---
 import CustomImage from "../CustomImage.astro";
 const { hero } = Astro.props;
-const image = hero.expand.image;
+const image = hero?.expand?.image;
 ---
 
 <header class="border-none bg-white text-neutral-900">

@@ -6,7 +6,7 @@ const { siteName, collection, logo, links } = Astro.props;
 ---
 
 <header
-    class="navbar fixed top-0 z-50 flex flex-wrap sm:justify-start sm:flex-nowrap w-full text-sm transition-colors"
+    class="navbar text-primary-darker fixed top-0 z-50 flex flex-wrap sm:justify-start sm:flex-nowrap w-full text-sm transition-colors"
 >
     <div
         class="container bg-transparent text-current p-4 sm:flex items-center justify-between"
@@ -20,8 +20,6 @@ const { siteName, collection, logo, links } = Astro.props;
                     type="button"
                     class="p-2 flex justify-center items-center rounded-md border border-none bg-primary-light text-white active:bg-secondary-main disabled:opacity-0 disabled:pointer-events-none"
                     aria-label="Toggle Mobile Menu"
-                    data-hs-collapse="#navbar-links"
-                    aria-controls="navbar-links"
                 >
                     <Icon
                         name="mdi:menu"
@@ -44,7 +42,7 @@ const { siteName, collection, logo, links } = Astro.props;
             class="sm:relative absolutetranslate-y-0 w-full sm:w-max left-0 p-4 shadow-md sm:shadow-none rounded-b-lg sm:rounded-none sm:p-0 hidden overflow-hidden transition-all duration-300 basis-full grow sm:block bg-inherit"
         >
             <div
-                class="flex flex-col gap-5 mt-5 sm:flex-row sm:gap-2 sm:flex-wrap sm:justify-end sm:mt-0 sm:px-5"
+                class="flex flex-col gap-5 mt-5 sm:flex-row sm:gap-1 sm:flex-wrap sm:justify-end sm:mt-0 sm:px-0"
             >
                 {
                     links &&

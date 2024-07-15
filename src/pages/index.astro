@@ -2,14 +2,14 @@
 import { Seo } from "astro-seo-meta";
 import { getPage } from "../pb";
 import MainNav from "../components/style_1/MainNav.astro";
-import HeroSection from "../components/style_1/HeroSection.astro";
+import HeroSection from "../components/style_2/HeroSection.astro";
 import FooterSection from "../components/style_1/Footer.astro";
 import PageSection from "../components/style_1/PageSection.astro";
 import ContactSection from "../components/ContactSection.astro";
 
 const {
-	expand: { hero, site_details, pages },
-	title,
+  expand: { hero, site_details, pages },
+  title,
 } = await getPage();
 
 const themeColor = site_details.theme_color;
@@ -17,125 +17,172 @@ const themeColor = site_details.theme_color;
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<Seo
-			title={site_details.title}
-			description={site_details.description}
-			keywords={[site_details.keywords]}
-			themeColor={site_details.theme_color}
-			icon="/favicon/favicon.ico"
-			facebook={{
-				image: "/favicon/android-chrome-512x512.png",
-				url: site_details.url,
-				type: "website",
-			}}
-			twitter={{
-				image: "/favicon/android-chrome-512x512.png",
-				site: "@yellowpages254",
-				card: "summary",
-			}}
-		/>
-		<link rel="canonical" href={site_details.url} />
-		<link
-			rel="sitemap"
-			type="application/xml"
-			title="Sitemap"
-			href={`${site_details.url}/sitemap-0.xml`}
-		/>
-		<meta name="robots" content="index, follow" />
-		<meta
-			property="article:published_time"
-			content={site_details.published_date}
-		/>
-		<link
-			rel="apple-touch-icon"
-			sizes="180x180"
-			href="./favicon/apple-touch-icon.jpg"
-		/>
-		<link
-			rel="icon"
-			type="image/jpg"
-			sizes="32x32"
-			href="./favicon/favicon-32x32.jpg"
-		/>
-		<link
-			rel="icon"
-			type="image/jpg"
-			sizes="16x16"
-			href="./favicon/favicon-16x16.jpg"
-		/>
-		<!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <Seo
+      title={site_details.title}
+      description={site_details.description}
+      themeColor={site_details.theme_color}
+      icon="/favicon/favicon.ico"
+      facebook={{
+        image: "/favicon/android-chrome-512x512.png",
+        url: site_details.url,
+        type: "website",
+      }}
+      twitter={{
+        image: "/favicon/android-chrome-512x512.png",
+        site: "@yellowpages254",
+        card: "summary",
+      }}
+    />
+    <link rel="canonical" href={site_details.url} />
+    <meta name="robots" content="index, follow" />
+    <meta
+      property="article:published_time"
+      content={new Date(site_details.published_date).toLocaleDateString(
+        "en-US",
+        { year: "numeric", month: "2-digit", day: "2-digit" }
+      )}
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./favicon/apple-touch-icon.jpg"
+    />
+    <link
+      rel="icon"
+      type="image/jpg"
+      sizes="32x32"
+      href="./favicon/favicon-32x32.jpg"
+    />
+    <link
+      rel="icon"
+      type="image/jpg"
+      sizes="16x16"
+      href="./favicon/favicon-16x16.jpg"
+    />
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Unna:wght@400;700&display=swap"
 			rel="stylesheet"
 		/> -->
-	</head>
-	<body>
-		<MainNav
-			siteName={title}
-			collection={site_details}
-			logo={site_details.logo}
-			links={site_details.links}
-		/>
-		<main class="min-h-screen">
-			<HeroSection hero={hero} values={site_details.core_values} />
-			{
-				pages?.map((page) =>
-					page.page_type !== "contact" ? (
-						<PageSection
-							page={page}
-							pageId={page?.page_type}
-							highlight={page?.page_type === "products" || page?.page_type === "services" && true}
-							hasValues={page?.page_type === "about" && true}
-							values={site_details.core_values}
-						/>
-					) : (
-						<ContactSection
-							data={page}
-							IframeSrc={site_details.location_iframe_src}
-						/>
-					),
-				)
-			}
-		</main>
-		<FooterSection
-			parentSiteTitle={site_details.parent_site_title}
-			parentSiteUrl={site_details.parent_site_url}
-			siteTitle={site_details.title.split("|")[0]?.trim("")}
-			siteUrl={site_details.url}
-		/>
-		<style define:vars={{themeColor}}>
-			:root {
-				--base: var(--themeColor);
+  </head>
+  <body>
+    <MainNav
+      siteName={title}
+      collection={site_details}
+      logo={site_details.logo}
+      links={site_details.links}
+    />
+    <main class="min-h-screen">
+      <HeroSection hero={hero} values={site_details.core_values} />
+      {
+        pages?.map((page) =>
+          page.page_type !== "contact" ? (
+            <PageSection
+              page={page}
+              pageId={page?.page_type}
+              highlight={
+                page?.page_type === "products" ||
+                (page?.page_type === "services" && true)
+              }
+              hasValues={false}
+              values={site_details.core_values}
+            />
+          ) : (
+            <ContactSection
+              data={page}
+              IframeSrc={site_details.location_iframe_src}
+            />
+          )
+        )
+      }
+    </main>
+    <FooterSection
+      parentSiteTitle={site_details.parent_site_title}
+      parentSiteUrl={site_details.parent_site_url}
+      siteTitle={site_details.title.split("|")[0]?.trim("")}
+      siteUrl={site_details.url}
+    />
+    <style define:vars={{ themeColor }} is:global>
+      :root {
+        --base: var(--themeColor);
 
-				/* SHADES */
-				--primary-lighter: oklch(from var(--base) calc(l + 0.2) c h);
-				--primary-light: oklch(from var(--base) calc(l + 0.1) c h);
-				--primary-dark: oklch(from var(--base) calc(l - 0.1) c h);
-				--primary-darker: oklch(from var(--base) calc(l - 0.2) c h);
+        /* ANALOGOUS */
+        --primary: var(--base);
+        --secondary: oklch(from var(--base) l c calc(h - 45));
+        --tertiary: oklch(from var(--base) l c calc(h + 45));
 
-				/* ANALOGOUS */
-				--primary: var(--base);
-				--secondary: oklch(from var(--base) l c calc(h - 45));
-				--tertiary:  oklch(from var(--base) l c calc(h + 45));
-			}
-			html {
-				scroll-behavior: smooth;
-			}
-			* {
-				text-wrap: pretty;
-			}
-			h1,
-			h2,
-			h3,
-			h4,
-			h5,
-			h6 {
-				text-wrap: balance;
-			}
-		</style>
-	</body>
+        /* SHADES */
+        --primary-lighter: oklch(from var(--base) calc(l + 0.2) c h);
+        --primary-light: oklch(from var(--base) calc(l + 0.1) c h);
+        --primary-dark: oklch(from var(--base) calc(l - 0.1) c h);
+        --primary-darker: oklch(from var(--base) calc(l - 0.2) c h);
+
+        --secondary-lighter: oklch(from var(--secondary) calc(l + 0.2) c h);
+        --secondary-light: oklch(from var(--secondary) calc(l + 0.1) c h);
+        --secondary-dark: oklch(from var(--secondary) calc(l - 0.1) c h);
+        --secondary-darker: oklch(from var(--secondary) calc(l - 0.2) c h);
+
+        --tertiary-lighter: oklch(from var(--tertiary) calc(l + 0.2) c h);
+        --tertiary-light: oklch(from var(--tertiary) calc(l + 0.1) c h);
+        --tertiary-dark: oklch(from var(--tertiary) calc(l - 0.1) c h);
+        --tertiary-darker: oklch(from var(--tertiary) calc(l - 0.2) c h);
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      :not(h1, h2, h3, h4, h5, h6) {
+        text-wrap: pretty;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      blockquote {
+        white-space: unset;
+        text-wrap: balance;
+        max-inline-size: 50ch;
+      }
+
+      .content-grid {
+        --padding-inline: 2rem;
+        --content-max-width: 270ch;
+        --breakout-max-width: 85ch;
+        --breakout-size: calc((var(--breakout-max-width) - var(--content-max-width)) / 2);
+
+        display: grid;
+        grid-template-columns: [full-width-start] minmax(var(--padding-inline),1fr) [breakout-start] minmax(0, var(--breakout-size)) [content-start] min(100% - (var(--padding-inline) * 2), var(--content-max-width)) [content-end] minmax(0, var(--breakout-size)) [breakout-end] minmax(var(--padding-inline), 1fr) [full-width-end];
+      }
+
+      .content-grid > :not(.breakout, .full-width) {
+        grid-column: content;
+      }
+
+      .content-grid > .breakout {
+        grid-column: breakout;
+      }
+
+      .content-grid > .full-width {
+        grid-column: full-width;
+      }
+
+      a:not([class]) {
+        padding: 0.25rem 0.425rem;
+        transition: color 0.35s ease;
+        border-bottom: 2px dotted transparent;
+      }
+
+      a:not([class]):hover {
+        color: white;
+        background-color: var(--secondary);
+        border-bottom-color: currentColor;
+      }
+    </style>
+  </body>
 </html>

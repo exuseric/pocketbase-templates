@@ -1,11 +1,48 @@
 ---
-import Image from "astro/components/Image.astro";
-import { getImageUrl } from "../../pb";
 import { Icon } from "astro-icon/components";
+
+import CustomImage from "../CustomImage.astro";
 const { hero, values } = Astro.props;
-const image = hero.expand.image;
 ---
-
-<header class="hero bg-primary-light">
-
+<header
+    class="container mx-auto relative flex flex-col-reverse items-center py-16 px-4 lg:pt-0 lg:flex-col lg:pb-0"
+>
+    <div
+        class="inset-y-0 top-0 right-0 z-0 w-full max-w-xl mx-auto md:m-0 lg:pr-0 lg:mb-0 lg:mx-0 lg:w-7/12 lg:max-w-full lg:absolute xl:px-0"
+    >
+        <svg
+            class="absolute left-0 hidden h-full text-neutral-50 transform -translate-x-2/4 lg:block"
+            viewBox="0 0 100 100"
+            fill="currentColor"
+            preserveAspectRatio="none slice"
+        >
+            <path d="M50 0H100L50 100H0L50 0Z"></path>
+        </svg>
+        <CustomImage classes="object-cover w-full h-56 rounded shadow-lg lg:rounded-none lg:shadow-none md:h-96 lg:h-full" image={hero?.expand?.image} lazy={false}/>   
+    </div>
+    <div
+        class="relative flex flex-col items-start w-full max-w-xl mx-auto md:m-0 lg:px-0 2xl:px-0 lg:max-w-screen-xl"
+    >
+        <div class="mb-4 py-8 sm:py-0 lg:my-40 lg:max-w-lg">
+            <ul class="flex flex-row flex-wrap sm:flex-row gap-1">
+                {
+                    values &&
+                        values.split(",").map((value: string) => (
+                            <li class="inline-flex items-center gap-1 py-1 px-0 mb-2 mr-2 text-base font-medium rounded-full w-fit">
+                               <Icon name="mdi:check-circle" aria-hidden="true" focusable="false" class="text-secondary-main"/>
+                                {value}
+                            </li>
+                        ))
+                }
+            </ul>
+            <h1
+                class="mb-5 font-sans text-3xl font-bold text-primary-main tracking-tight sm:text-4xl sm:leading-none"
+            >
+                {hero?.title}
+            </h1>
+            <p class="pr-5 mb-5 text-base md:text-lg">
+                {hero?.excerpt}
+            </p>
+        </div>
+    </div>
 </header>

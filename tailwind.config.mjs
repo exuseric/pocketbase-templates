@@ -20,10 +20,18 @@ export default {
 					darker: 'var(--primary-darker)'
 				},
 				secondary: {
-					main: 'var(--secondary)'
+					lighter: 'var(--secondary-lighter)',
+					light: 'var(--secondary-light)',
+					main: 'var(--secondary)',
+					dark: 'var(--secondary-dark)',
+					darker: 'var(--secondary-darker)'
 				},
 				tertiary: {
-					main: 'var(--tertiary)'
+					lighter: 'var(--tertiary-lighter)',
+					light: 'var(--tertiary-light)',
+					main: 'var(--tertiary)',
+					dark: 'var(--tertiary-dark)',
+					darker: 'var(--tertiary-darker)'
 				}
 			}
 		},

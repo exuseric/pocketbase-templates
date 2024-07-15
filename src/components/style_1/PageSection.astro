@@ -7,15 +7,15 @@ const { page, pageId, highlight, hasValues, values } = Astro.props;
 
 ---
 
-<section id={pageId} class={`${highlight && "bg-primary-main"} scroll-m-24`}>
-    <div class="container py-12">
+<section id={pageId.split(" ").join("-")} class={`${highlight && "bg-primary-lighter"} scroll-m-24`}>
+    <div class="container py-4 sm:py-12">
         <SectionHeading
             sectionTitle={page?.title}
-            textColor={`${highlight && "text-neutral-50"}`}
+            textColor={`${highlight ? "text-neutral-900" : "text-primary-darker"}`}
         />
         {
             page?.expand?.card_grid && page.expand.card_grid.length > 0 && (
-                <CardGrid cards={page?.expand?.card_grid} />
+                <CardGrid cards={page?.expand?.card_grid} highlight={highlight}/>
             )
         }
         <div class="grid gap-10 lg:grid-cols-2 items-center justify-between">
