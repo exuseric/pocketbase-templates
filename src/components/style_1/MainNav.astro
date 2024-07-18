@@ -12,7 +12,7 @@ const { siteName, collection, logo, links } = Astro.props;
         class="container bg-transparent text-current p-4 sm:flex items-center justify-between"
     >
         <div class="flex items-center justify-between">
-            <Logo siteName={siteName} collection={collection} logo={logo} classes="size-24"/>
+            <Logo siteName={siteName} collection={collection} logo={logo} classes="size-12"/>
 
             <div class="sm:hidden">
                 <button
@@ -39,9 +39,9 @@ const { siteName, collection, logo, links } = Astro.props;
 
         <div
             id="navbar__links"
-            class="sm:relative absolutetranslate-y-0 w-full sm:w-max left-0 p-4 shadow-md sm:shadow-none rounded-b-lg sm:rounded-none sm:p-0 hidden overflow-hidden transition-all duration-300 basis-full grow sm:block bg-inherit"
+            class="sm:relative absolute translate-y-0 w-full sm:w-max left-0 p-4 shadow-md sm:shadow-none rounded-b-lg sm:rounded-none sm:p-0 hidden overflow-hidden transition-all duration-300 basis-full grow sm:block bg-white sm:bg-transparent"
         >
-            <div
+            <menu
                 class="flex flex-col gap-5 mt-5 sm:flex-row sm:gap-1 sm:flex-wrap sm:justify-end sm:mt-0 sm:px-0"
             >
                 {
@@ -59,7 +59,7 @@ const { siteName, collection, logo, links } = Astro.props;
                             </a>
                         ))
                 }
-            </div>
+            </menu>
         </div>
     </div>
 </header>

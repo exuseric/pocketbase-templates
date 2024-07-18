@@ -5,45 +5,52 @@ import { Icon } from "astro-icon/components";
 const { siteName, collection, logo, links } = Astro.props;
 ---
 
-<header class="navbar sticky bg-neutral-100">
-    <div class="container navbar__top px-4 py-1 bg-neutral-300"></div>
+<header
+    class="navbar text-primary-darker fixed top-0 z-50 flex flex-wrap sm:justify-start sm:flex-nowrap w-full text-sm transition-colors"
+    navbar-active="false"
+>
     <div
-        class="container navbar__bottom flex flex-row justify-between items-center px-4 py-2"
+        class="container bg-transparent text-current p-4 sm:flex items-center justify-between gap-4"
     >
-        <Logo siteName={siteName} collection={collection} logo={logo} />
+        <div class="flex items-center justify-between">
+            <Logo siteName={siteName} collection={collection} logo={logo} classes="size-12"/>
 
-        <div class="sm:hidden">
-            <button
-                id="menuToggle"
-                class="p-2 flex justify-center items-center rounded-sm border border-b-neutral-200 text-neutral-800"
-            >
-                <Icon
-                    name="mdi:menu"
-                    aria-hidden="true"
-                    focusable="false"
-                    class="menuBtnToggleIcon nav--open flex-shrink-0 size-4"
-                />
-                <Icon
-                    name="mdi:close"
-                    aria-hidden="true"
-                    focusable="false"
-                    class="menuBtnToggleIcon nav--closed flex-shrink-0 size-4"
-                />
-            </button>
+            <div class="sm:hidden">
+                <button
+                    id="menuToggle"
+                    type="button"
+                    class="p-2 flex justify-center items-center rounded-md border border-none bg-primary-light text-white active:bg-secondary-main disabled:opacity-0 disabled:pointer-events-none"
+                    aria-label="Toggle Mobile Menu"
+                >
+                    <Icon
+                        name="mdi:menu"
+                        aria-hidden="true"
+                        focusable="false"
+                        class="menuBtnToggleIcon nav--open flex-shrink-0 size-4"
+                    />
+                    <Icon
+                        name="mdi:close"
+                        aria-hidden="true"
+                        focusable="false"
+                        class="menuBtnToggleIcon nav--closed flex-shrink-0 size-4"
+                    />
+                </button>
+            </div>
         </div>
-        <!-- Menu -->
+
         <div
             id="navbar__links"
-            class="sm:relative absolutetranslate-y-0 w-full sm:w-max left-0 p-4 shadow-md sm:shadow-none rounded-b-lg sm:rounded-none sm:p-0 hidden overflow-hidden transition-all duration-300 basis-full grow sm:block bg-inherit"
+            class="sm:relative absolutetranslate-y-0 w-full sm:w-max left-0 p-4 shadow-md sm:shadow-none rounded-b-lg sm:rounded-none sm:p-0 hidden overflow-hidden transition-all duration-300 basis-full grow sm:block bg-white sm:bg-transparent"
         >
             <menu
-                class="flex flex-col gap-5 mt-5 sm:flex-row sm:gap-2 sm:flex-wrap sm:justify-end sm:mt-0"
+                class="flex flex-col gap-5 mt-5 sm:flex-row sm:gap-1 sm:flex-wrap sm:justify-start sm:mt-0 sm:px-0 transition-all"
+                menu-active="false"
             >
                 {
                     links &&
                         links.map((link: any, index: number) => (
                             <a
-                                class={`capitalize font-bold hover:bg-secondary-main hover:text-white p-4 sm:px-4 sm:py-1 rounded-md ${index === links.length - 1 ? "bg-white text-neutral-900" : "text-current"}`}
+                                class={`capitalize font-bold hover:bg-secondary-main hover:text-white p-4 sm:px-4 sm:py-2 rounded-md ${index === links.length - 1 ? "bg-primary-main text-white" : "text-current"}`}
                                 href={
                                     index === 0
                                         ? "/"
@@ -58,3 +65,74 @@ const { siteName, collection, logo, links } = Astro.props;
         </div>
     </div>
 </header>
+
+<script>
+    // Toggle the menu when the button is clicked
+    function toggleMenu() {
+        console.log("clicked");
+        const showBtn = document.querySelector("#menuToggle");
+        if (showBtn) {
+            showBtn.addEventListener("click", () => {
+                const nav = document.querySelector("#navbar__links");
+                if (nav) {
+                    const icons =
+                        document.querySelectorAll(".menuBtnToggleIcon");
+                    icons.forEach((icon) => {
+                        icon.classList.toggle("nav--closed");
+                    });
+                    nav.classList.toggle("nav--open");
+                }
+            });
+        }
+    }
+
+    function navChangeColor() {
+        const navBar = document.querySelector('.navbar')
+        const menu = document.querySelector('menu')
+        document.addEventListener("scroll", ()=> {
+            const y = window.scrollY || document.documentElement.scrollTop
+            const navHeight = navBar.getBoundingClientRect().height
+            if(y > navHeight) {
+                navBar.setAttribute('navbar-active', 'true')
+                menu.setAttribute('menu-active', 'true')
+            } else {
+                navBar.setAttribute('navbar-active', 'false')
+                menu.setAttribute('menu-active', 'false')
+            }
+        })
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        toggleMenu();
+        navChangeColor();
+    });
+</script>
+
+<style>
+    .nav--open {
+        display: block;
+    }
+
+    .nav--closed {
+        display: none;
+    }
+
+    [navbar-active="true"] {
+        background-color: white;
+        color: var(--primary-darker);
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    }
+
+    [navbar-active="false"] {
+        background-color: transparent;
+        color: var(--primary-darker);
+    }
+
+    [menu-active="true"] {
+        justify-content: flex-end
+    }
+
+    [menu-active="false"] {
+        justify-content: flex-start;
+    }
+</style>

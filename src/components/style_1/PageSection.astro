@@ -3,6 +3,7 @@ import SectionHeading from "../SectionHeading.astro";
 import CardGrid from "../CardGrid.astro";
 import { Icon } from "astro-icon/components";
 import CustomImage from "../CustomImage.astro";
+import IconGrid from "../IconGrid.astro";
 const { page, pageId, highlight, hasValues, values } = Astro.props;
 
 ---
@@ -14,10 +15,13 @@ const { page, pageId, highlight, hasValues, values } = Astro.props;
             textColor={`${highlight ? "text-neutral-900" : "text-primary-darker"}`}
         />
         {
-            page?.expand?.card_grid && page.expand.card_grid.length > 0 && (
+            page?.expand?.card_grid && page.expand.card_grid.length > 0 && pageId !== "small card grid" && (
                 <CardGrid cards={page?.expand?.card_grid} highlight={highlight}/>
             )
         }
+        {page?.expand?.card_grid && page.expand.card_grid.length > 0 && pageId === "small card grid" && (
+            <IconGrid cards={page?.expand?.card_grid} highlight={highlight}/>
+        )}
         <div class="grid gap-10 lg:grid-cols-2 items-center justify-between">
             <div
                 class={`content max-w-prose py-8 leading-relaxed flex flex-col gap-3 ${highlight && "text-white"}`}
@@ -54,3 +58,7 @@ const { page, pageId, highlight, hasValues, values } = Astro.props;
         }
     </div>
 </section>
+
+<style>
+
+</style>

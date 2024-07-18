@@ -4,12 +4,12 @@ import SectionHeading from "./SectionHeading.astro";
 import { getImageUrl } from "../pb";
 import CustomImage from "./CustomImage.astro";
 
-const { data, IframeSrc } = Astro.props;
+const { data, IframeSrc, highlight } = Astro.props;
 const { title, excerpt, content, image, expand } = data;
 ---
 
-<section class="container px-4 py-4 sm:py-12 scroll-m-24" id="contact">
-    <SectionHeading sectionTitle={title} />
+<section class="container px-4 py-4 sm:py-12 scroll-m-24" id="contact-us">
+    <SectionHeading sectionTitle={title} textColor={`${highlight ? "text-neutral-900" : "text-primary-darker"}`}/>
     <div class="sm:max-w-xl md:max-w-full lg:max-w-screen-xl">
         <div class="grid gap-10 lg:grid-cols-2">
             <div class="lg:pr-10">
