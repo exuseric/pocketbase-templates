@@ -8,11 +8,11 @@ const { page, pageId, highlight, hasValues, values } = Astro.props;
 
 ---
 
-<section id={pageId.split(" ").join("-")} class={`${highlight && "bg-primary-lighter"} scroll-m-24`}>
+<section id={pageId.split(" ").join("-")} class={`${highlight && "bg-[#5b8338]"} scroll-m-24 py-8`}>
     <div class="container py-4 sm:py-12">
         <SectionHeading
             sectionTitle={page?.title}
-            textColor={`${highlight ? "text-neutral-900" : "text-primary-darker"}`}
+            textColor={`${highlight ? "text-white" : "text-primary-darker"}`}
         />
         {
             page?.expand?.card_grid && page.expand.card_grid.length > 0 && pageId !== "small card grid" && (

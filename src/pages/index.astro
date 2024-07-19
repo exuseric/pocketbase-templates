@@ -1,7 +1,7 @@
 ---
 import { Seo } from "astro-seo-meta";
 import { getPage } from "../pb";
-import MainNav from "../components/style_1/MainNav.astro";
+import MainNav from "../components/style_3/MainNav.astro";
 import HeroSection from "../components/style_3/HeroSection.astro";
 import FooterSection from "../components/style_1/Footer.astro";
 import PageSection from "../components/style_1/PageSection.astro";
@@ -77,7 +77,7 @@ console.log(Country);
       sizes="16x16"
       href="./favicon/favicon-16x16.jpg"
     />
-    <link rel="sitemap" href="/sitemap.xml">
+    <link rel="sitemap" href="/sitemap.xml" />
     <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -214,11 +214,16 @@ console.log(Country);
         transition: color 0.35s ease;
         border-bottom: 2px dotted transparent;
       }
-
-      a:not([class]):hover {
-        color: white;
+      a:not([class]):hover,
+      .footer-link:hover > span {
         background-color: var(--secondary);
-        border-bottom-color: currentColor;
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity));
+      }
+
+      .footer-link > span {
+        padding: 0.425rem;
+        border-radius: 0.25rem;
       }
     </style>
   </body>

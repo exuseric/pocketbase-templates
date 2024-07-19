@@ -6,15 +6,15 @@ const { parentSiteTitle, parentSiteUrl, siteTitle, siteUrl } = Astro.props;
 console.log(siteTitle);
 ---
 
-<footer class="py-12 bg-primary-darker text-white text-sm">
+<footer class="py-12 bg-neutral-200 text-neutral-800 text-sm">
     <div class="container flex flex-col justify-center items-center gap-8">
-        <p>
+        <p class="max-w-max text-center">
             Copyright &copy; {new Date().getFullYear()}
-            {siteTitle}. All Rights Reserved.
+            {siteTitle}. <wb />All&nbsp;Rights&nbsp;Reserved.
         </p>
         <a
             href={parentSiteUrl}
-            class="container text-center flex flex-col justify-center items-center gap-2 w-fit border-b border-b-transparent hover:border-b-secondary-darker hover:text-secondary-darker"
+            class="container footer-link text-center flex flex-col justify-center items-center gap-2 w-fit border-b border-b-transparent"
             aria-labelledby="yellow-pages"
         >
             <Image
@@ -22,7 +22,7 @@ console.log(siteTitle);
                 width={YPLogo.width}
                 height={YPLogo.height}
                 alt="Yellow Pages Logo"
-                class="object-contain object-center size-12"
+                class="object-contain object-center size-16"
             />
             <span id="yellow-pages">Designed by {parentSiteTitle}</span>
         </a>

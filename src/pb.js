@@ -1,7 +1,7 @@
 import PocketBase from 'pocketbase';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
-const landingPageId = '9mu0n7loxnjgqn6'
+const landingPageId = 'fawn632eqanofhl'
 
 const getImageUrl = ({ collection, filename }) => pb.files.getUrl(collection, filename)
 

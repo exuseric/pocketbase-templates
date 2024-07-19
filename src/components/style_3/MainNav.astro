@@ -17,7 +17,7 @@ const { siteName, collection, logo, links } = Astro.props;
         siteName={siteName}
         collection={collection}
         logo={logo}
-        classes="size-12"
+        classes="logo size-44 transition-all"
       />
 
       <div class="sm:hidden">
@@ -42,19 +42,18 @@ const { siteName, collection, logo, links } = Astro.props;
         </button>
       </div>
     </div>
-
     <div
       id="navbar__links"
-      class="sm:relative absolute translate-y-0 w-full sm:w-max left-0 p-4 shadow-md sm:shadow-none rounded-b-lg sm:rounded-none sm:p-0 hidden overflow-hidden transition-all duration-300 basis-full grow sm:block bg-white sm:bg-transparent"
+      class="sm:relative absolute translate-y-0 w-full sm:w-max left-0 p-4 shadow-md sm:shadow-none rounded-b-lg sm:rounded-none sm:p-0 hidden overflow-hidden transition-all duration-300 sm:block bg-white sm:bg-transparent sm:text-white"
     >
       <menu
-        class="flex flex-col gap-5 mt-5 sm:flex-row sm:gap-1 sm:flex-wrap sm:justify-end sm:mt-0 sm:px-0"
+        class="flex flex-col gap-5 mt-5 sm:flex-row sm:gap-1 sm:flex-wrap sm:justify-end sm:mt-0 sm:px-0 sm:w-max"
       >
         {
           links &&
             links.map((link: any, index: number) => (
               <a
-                class={`capitalize font-bold hover:bg-secondary-main hover:text-white p-4 sm:px-4 sm:py-2 rounded-md ${index === links.length - 1 ? "bg-primary-main text-white" : "text-current"}`}
+                class={`capitalize font-bold hover:bg-secondary-main hover:text-white p-4 sm:px-4 sm:py-2 rounded-md ${index === links.length - 1 ? "cta-link bg-white text-primary-darker" : "text-current"}`}
                 href={index === 0 ? "/" : `#${link.split(" ").join("-")}`}
               >
                 {link}
@@ -69,7 +68,7 @@ const { siteName, collection, logo, links } = Astro.props;
 <script>
   const getYPosition = () =>
     window.scrollY || document.documentElement.scrollTop;
-
+  const matchMedia = () => window.matchMedia("(min-width:640px)").matches;
   // Toggle the menu when the button is clicked
   function toggleMenu() {
     const showBtn = document.querySelector("#menuToggle");
@@ -100,10 +99,29 @@ const { siteName, collection, logo, links } = Astro.props;
 
   function navChangeColor() {
     const navBar = document.querySelector(".navbar");
+    const nav = document.querySelector("#navbar__links");
+    const ctaLink = document.querySelector(".cta-link");
+    const logo = document.querySelector(".logo");
+
     document.addEventListener("scroll", () => {
-      getYPosition() > navBar.getBoundingClientRect().height
-        ? navBar.setAttribute("navbar-active", "true")
-        : navBar.setAttribute("navbar-active", "false");
+      if (getYPosition() > navBar.getBoundingClientRect().height) {
+        navBar.setAttribute("navbar-active", "true");
+        matchMedia() && nav.classList.remove("sm:text-white");
+
+        ctaLink.classList.remove("bg-white", "text-primary-darker");
+        ctaLink.classList.add("bg-primary-main", "text-white");
+
+        logo.classList.add("size-32");
+        logo.classList.remove("size-44");
+      } else {
+        navBar.setAttribute("navbar-active", "false");
+        matchMedia() && nav.classList.add("sm:text-white");
+        ctaLink.classList.add("bg-white", "text-primary-darker");
+        ctaLink.classList.remove("bg-primary-main", "text-white");
+
+        logo.classList.remove("size-32");
+        logo.classList.add("size-44");
+      }
     });
   }
 
