@@ -6,7 +6,7 @@ const { siteName, collection, logo, links } = Astro.props;
 ---
 
 <header
-  class="navbar text-primary-darker fixed top-0 z-50 flex flex-wrap sm:justify-start sm:flex-nowrap w-full text-sm transition-colors"
+  class="navbar bg-white sm:bg-transparent text-primary-darker fixed top-0 z-50 flex flex-wrap sm:justify-start sm:flex-nowrap w-full text-sm transition-colors"
   navbar-active="false"
 >
   <div
@@ -44,7 +44,7 @@ const { siteName, collection, logo, links } = Astro.props;
     </div>
     <div
       id="navbar__links"
-      class="sm:relative absolute translate-y-0 w-full sm:w-max left-0 p-4 shadow-md sm:shadow-none rounded-b-lg sm:rounded-none sm:p-0 hidden overflow-hidden transition-all duration-300 sm:block bg-white sm:bg-transparent sm:text-white"
+      class="sm:relative absolute translate-y-0 w-full sm:w-max left-0 p-4 shadow-md sm:shadow-none rounded-b-lg sm:rounded-none sm:p-0 hidden overflow-hidden transition-all duration-300 sm:block bg-white sm:bg-transparent"
     >
       <menu
         class="flex flex-col gap-5 mt-5 sm:flex-row sm:gap-1 sm:flex-wrap sm:justify-end sm:mt-0 sm:px-0 sm:w-max"
@@ -53,7 +53,7 @@ const { siteName, collection, logo, links } = Astro.props;
           links &&
             links.map((link: any, index: number) => (
               <a
-                class={`capitalize font-bold hover:bg-secondary-main hover:text-white p-4 sm:px-4 sm:py-2 rounded-md ${index === links.length - 1 ? "cta-link bg-white text-primary-darker" : "text-current"}`}
+                class={`capitalize font-bold hover:bg-secondary-main hover:text-white p-4 sm:px-4 sm:py-2 rounded-md ${index === links.length - 1 ? "cta-link bg-primary-main text-white" : "text-current"}`}
                 href={index === 0 ? "/" : `#${link.split(" ").join("-")}`}
               >
                 {link}
@@ -102,22 +102,20 @@ const { siteName, collection, logo, links } = Astro.props;
     const nav = document.querySelector("#navbar__links");
     const ctaLink = document.querySelector(".cta-link");
     const logo = document.querySelector(".logo");
-
     document.addEventListener("scroll", () => {
       if (getYPosition() > navBar.getBoundingClientRect().height) {
         navBar.setAttribute("navbar-active", "true");
-        matchMedia() && nav.classList.remove("sm:text-white");
-
-        ctaLink.classList.remove("bg-white", "text-primary-darker");
-        ctaLink.classList.add("bg-primary-main", "text-white");
+        // matchMedia() && nav.classList.remove("sm:text-white");
+        // ctaLink.classList.remove("bg-white", "text-primary-darker");
+        // ctaLink.classList.add("bg-primary-main", "text-white");
 
         logo.classList.add("size-32");
         logo.classList.remove("size-44");
       } else {
-        navBar.setAttribute("navbar-active", "false");
-        matchMedia() && nav.classList.add("sm:text-white");
-        ctaLink.classList.add("bg-white", "text-primary-darker");
-        ctaLink.classList.remove("bg-primary-main", "text-white");
+        matchMedia() && navBar.setAttribute("navbar-active", "false");
+        // matchMedia() && nav.classList.add("sm:text-white");
+        // ctaLink.classList.add("bg-white", "text-primary-darker");
+        // ctaLink.classList.remove("bg-primary-main", "text-white");
 
         logo.classList.remove("size-32");
         logo.classList.add("size-44");

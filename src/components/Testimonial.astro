@@ -1,0 +1,35 @@
+---
+import { Icon } from "astro-icon/components";
+import CustomImage from "./CustomImage.astro";
+
+const { cards } = Astro.props;
+---
+
+<div class="">
+  <div
+    class="grid row-gap-8 justify-center sm:row-gap-0 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 pt-12"
+  >
+    {
+      cards &&
+        cards.map((card, idx) => (
+          <div class={`text-left relative w-full flex flex-col justify-between p-8 rounded-md ${idx === 1 && "bg-neutral-50"}`}>
+            <Icon
+              name="mdi:format-quote-open"
+              class={`absolute top-0 left-1/2 z-[1] -translate-x-1/2 -translate-y-1/2 text-neutral-200 ${idx === 1 && "text-primary-lighter"} size-24`}
+            />
+            {card.body && <slot set:html={card.body} />}
+            <div class="flex flex-wrap flex-row justify-between items-center pt-4">
+              {card?.image && (
+                <CustomImage
+                  image={card?.expand?.image}
+                  classes="object-contain w-auto h-full max-h-8"
+                  lazy={true}
+                />
+              )}
+              <h3 class="font-bold">{card.title}</h3>
+            </div>
+          </div>
+        ))
+    }
+  </div>
+</div>

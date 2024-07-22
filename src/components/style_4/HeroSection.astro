@@ -6,7 +6,7 @@ const { hero, values } = Astro.props;
 ---
 
 <header
-  class="content-grid w-full sm:min-h-screen overflow-hidden sm:px-4 sm:pt-24"
+  class="sm:container sm:content-grid w-full overflow-hidden sm:px-4 sm:pt-24"
 >
   <div class="sm:grid sm:grid-cols-2 sm:gap-2">
     <CustomImage
@@ -16,7 +16,7 @@ const { hero, values } = Astro.props;
     />
     <article class="sm:grid sm:grid-rows-[2fr_1fr] sm:gap-2">
       <div
-        class="content bg-primary-main text-white sm:rounded-lg px-4 py-8 sm:px-12 sm:py-12 flex flex-col items-start justify-center gap-4"
+        class="content bg-primary-darker text-white sm:rounded-lg px-4 py-8 sm:px-12 sm:py-12 flex flex-col items-start justify-center gap-4"
       >
         <h1
           class="max-w-prose text-3xl font-bold tracking-tight sm:text-4xl sm:leading-none"

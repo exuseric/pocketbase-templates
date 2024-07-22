@@ -8,7 +8,7 @@ const {SiteName, ParentSiteName, ParentSiteUrl} = Astro.props
 
 <footer class="bg-neutral-100 dark:bg-neutral-800 px-4 py-8 flex flex-col gap-4">
     <p class="container text-center">Copyright &copy; {new Date().getFullYear()} {SiteName}. All rights reserved.</p>
-    <a href={ParentSiteUrl} class="container text-center flex flex-col gap-2 w-fit border-b-2 border-b-transparent hover:border-b-amber-600" aria-labelledby="yellow-pages">
+    <a href={ParentSiteUrl} target="_blank" class="container text-center flex flex-col gap-2 w-fit border-b-2 border-b-transparent hover:border-b-amber-600" aria-labelledby="yellow-pages">
         <Image src={YPLogo} width={YPLogo.width} height={YPLogo.height} alt="Yellow Pages Logo" class="object-contain object-center min-w-full max-h-12 max-w-12" />
         <span id="yellow-pages">Designed by {ParentSiteName}</span>
     </a>

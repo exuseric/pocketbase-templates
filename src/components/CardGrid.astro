@@ -1,7 +1,7 @@
 ---
 import CustomImage from "./CustomImage.astro";
 
-const { cards, highlight } = Astro.props;
+const { cards, highlight, page } = Astro.props;
 ---
 
 <div class="py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl lg:py-8">
@@ -14,7 +14,7 @@ const { cards, highlight } = Astro.props;
                         {card.image && (
                             <CustomImage
                                 image={card?.expand?.image}
-                                classes="object-cover w-full h-64 lg:h-48 xl:h-60 rounded-lg"
+                                classes={`${page === "small card grid" ? 'object-contain' : 'object-cover'} w-full h-64 lg:h-48 xl:h-60 rounded-lg`}
                                 lazy={true}
                             />
                         )}
