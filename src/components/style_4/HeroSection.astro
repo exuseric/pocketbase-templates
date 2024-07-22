@@ -1,0 +1,87 @@
+---
+import { Icon } from "astro-icon/components";
+
+import CustomImage from "../CustomImage.astro";
+const { hero, values } = Astro.props;
+---
+
+<header
+  class="content-grid w-full sm:min-h-screen overflow-hidden sm:px-4 sm:pt-24"
+>
+  <div class="sm:grid sm:grid-cols-2 sm:gap-2">
+    <CustomImage
+      classes="object-cover w-full h-96 sm:h-full sm:rounded-lg"
+      image={hero?.expand?.image}
+      lazy={false}
+    />
+    <article class="sm:grid sm:grid-rows-[2fr_1fr] sm:gap-2">
+      <div
+        class="content bg-primary-main text-white sm:rounded-lg px-4 py-8 sm:px-12 sm:py-12 flex flex-col items-start justify-center gap-4"
+      >
+        <h1
+          class="max-w-prose text-3xl font-bold tracking-tight sm:text-4xl sm:leading-none"
+        >
+          {hero?.title}
+        </h1>
+        <p class="max-w-prose text-base md:text-lg">
+          {hero?.excerpt}
+        </p>
+      </div>
+      <ul
+        class="flex flex-row flex-wrap items-center justify-between sm:flex-row gap-4 py-2 px-12 sm:rounded-lg w-full h-full bg-primary-lighter"
+      >
+        {
+          values &&
+            values
+              .split(",")
+              .sort((a, b) => a.localeCompare(b))
+              .map((value: string) => (
+                <li class="inline-flex items-center gap-1 px-0 text-base font-medium rounded-full w-fit">
+                  <Icon
+                    name="mdi:check-circle"
+                    aria-hidden="true"
+                    focusable="false"
+                    class="text-current"
+                  />
+                  {value}
+                </li>
+              ))
+        }
+      </ul>
+    </article>
+  </div>
+</header>
+<!-- <header
+    class="content-grid mx-auto relative  py-16 px-4 lg:pt-0 lg:flex-col lg:pb-0"
+>
+    <div
+        class="inset-y-0 top-0 right-0 z-0 w-full max-w-xl mx-auto md:m-0 lg:pr-0 lg:mb-0 lg:mx-0 lg:w-7/12 lg:max-w-full lg:absolute xl:px-0 outline outline-1 outline-lime-500 breakout"
+    >
+        <CustomImage classes="object-contain w-full h-56 rounded lg:rounded-none md:h-96 lg:h-full" image={hero?.expand?.image} lazy={false}/>   
+    </div>
+    <div
+        class="relative flex flex-col items-start w-full max-w-xl mx-auto md:m-0 lg:px-0 2xl:px-0 lg:max-w-screen-xl outline outline-1 outline-pink-500"
+    >
+        <div class="mb-4 py-8 sm:py-0 lg:my-40 lg:max-w-lg">
+            <ul class="flex flex-row flex-wrap sm:flex-row gap-1">
+                {
+                    values &&
+                        values.split(",").map((value: string) => (
+                            <li class="inline-flex items-center gap-1 py-1 px-0 mb-2 mr-2 text-base font-medium rounded-full w-fit">
+                               <Icon name="mdi:check-circle" aria-hidden="true" focusable="false" class="text-secondary-main"/>
+                                {value}
+                            </li>
+                        ))
+                }
+            </ul>
+            <h1
+                class="mb-5 font-sans text-3xl font-bold text-primary-main tracking-tight sm:text-4xl sm:leading-none"
+            >
+                {hero?.title}
+            </h1>
+            <p class="pr-5 mb-5 text-base md:text-lg">
+                {hero?.excerpt}
+            </p>
+        </div>
+    </div>
+</header> -->
