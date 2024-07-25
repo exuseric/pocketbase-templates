@@ -6,12 +6,10 @@ const { siteName, collection, logo, links } = Astro.props;
 ---
 
 <header
-  class="navbar bg-white sm:bg-transparent text-primary-darker fixed top-0 z-50 flex flex-wrap sm:justify-start sm:flex-nowrap w-full text-sm transition-colors"
+  class="navbar content-grid py-2 bg-white sm:bg-transparent text-primary-darker fixed top-0 z-50 flex flex-wrap sm:justify-start sm:flex-nowrap w-full text-sm transition-colors"
   navbar-active="false"
 >
-  <div
-    class="container bg-transparent text-current p-4 sm:flex items-center justify-between"
-  >
+  <div class="bg-transparent text-current sm:flex items-center justify-between">
     <div class="flex items-center justify-between">
       <Logo
         siteName={siteName}
@@ -53,7 +51,7 @@ const { siteName, collection, logo, links } = Astro.props;
           links &&
             links.map((link: any, index: number) => (
               <a
-                class={`capitalize font-bold hover:bg-secondary-main hover:text-white p-4 sm:px-4 sm:py-2 rounded-md ${index === links.length - 1 ? "cta-link bg-primary-main text-white" : "text-current"}`}
+                class={`capitalize font-bold hover:bg-secondary-main hover:text-white p-4 sm:px-4 sm:py-2 rounded-md ${index === links.length - 1 ? "cta-link bg-primary-dark text-white" : "text-current"}`}
                 href={index === 0 ? "/" : `#${link.split(" ").join("-")}`}
               >
                 {link}
@@ -69,6 +67,7 @@ const { siteName, collection, logo, links } = Astro.props;
   const getYPosition = () =>
     window.scrollY || document.documentElement.scrollTop;
   const matchMedia = () => window.matchMedia("(min-width:640px)").matches;
+  
   // Toggle the menu when the button is clicked
   function toggleMenu() {
     const showBtn = document.querySelector("#menuToggle");
@@ -107,7 +106,7 @@ const { siteName, collection, logo, links } = Astro.props;
         navBar.setAttribute("navbar-active", "true");
         // matchMedia() && nav.classList.remove("sm:text-white");
         // ctaLink.classList.remove("bg-white", "text-primary-darker");
-        // ctaLink.classList.add("bg-primary-main", "text-white");
+        // ctaLink.classList.add("bg-primary-dark", "text-white");
 
         logo.classList.add("size-32");
         logo.classList.remove("size-44");
@@ -115,7 +114,7 @@ const { siteName, collection, logo, links } = Astro.props;
         matchMedia() && navBar.setAttribute("navbar-active", "false");
         // matchMedia() && nav.classList.add("sm:text-white");
         // ctaLink.classList.add("bg-white", "text-primary-darker");
-        // ctaLink.classList.remove("bg-primary-main", "text-white");
+        // ctaLink.classList.remove("bg-primary-dark", "text-white");
 
         logo.classList.remove("size-32");
         logo.classList.add("size-44");

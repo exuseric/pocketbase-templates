@@ -1,11 +1,10 @@
 ---
 import { Seo } from "astro-seo-meta";
-import { getPage } from "../pb";
-import MainNav from "../components/style_3/MainNav.astro";
+import { getPage } from "../pocket-base";
+import MainNav from "../components/style_2/MainNav.astro";
 import HeroSection from "../components/style_4/HeroSection.astro";
-import FooterSection from "../components/style_1/Footer.astro";
+import FooterSection from "../components/style_2/Footer.astro";
 import PageSection from "../components/style_1/PageSection.astro";
-import ContactSection from "../components/ContactSection.astro";
 
 const {
   expand: { hero, site_details, pages },
@@ -20,10 +19,8 @@ const languages = {
   cbv: "pt-cv",
   moc: "pt-mz",
 };
-console.log(Country);
 ---
 
-<!doctype html>
 <html lang={languages[Country] ?? "en"}>
   <head>
     <meta charset="UTF-8" />
@@ -85,7 +82,9 @@ console.log(Country);
 			rel="stylesheet"
 		/> -->
   </head>
-  <body>
+  <body
+    class="bg-neutral-50 text-neutral-950 dark:bg-neutral-950 dark:text-neutral-50"
+  >
     <MainNav
       siteName={title}
       collection={site_details}
@@ -95,25 +94,19 @@ console.log(Country);
     <main class="min-h-screen">
       <HeroSection hero={hero} values={site_details.core_values} />
       {
-        pages?.map((page) =>
-          page.page_type !== "contact" ? (
-            <PageSection
-              page={page}
-              pageId={page?.page_type}
-              highlight={
-                page?.page_type === "products" ||
-                (page?.page_type === "services" && true)
-              }
-              hasValues={false}
-              values={site_details.core_values}
-            />
-          ) : (
-            <ContactSection
-              data={page}
-              IframeSrc={site_details.location_iframe_src}
-            />
-          )
-        )
+        pages?.map((page) => (
+          <PageSection
+            page={page}
+            pageId={page?.page_type}
+            highlight={
+              page?.page_type === "products" ||
+              (page?.page_type === "services" && true)
+            }
+            hasValues={false}
+            values={site_details.core_values}
+            iframe={site_details.location_iframe_src}
+          />
+        ))
       }
     </main>
     <FooterSection
@@ -152,7 +145,7 @@ console.log(Country);
       }
       html,
       body {
-        /* font-size: 16px !important; */
+        font-size: 16px !important;
       }
       :not(h1, h2, h3, h4, h5, h6) {
         text-wrap: pretty;
@@ -176,8 +169,8 @@ console.log(Country);
       }
 
       .content-grid {
-        --padding-inline: 2rem;
-        --content-max-width: 100ch;
+        --padding-inline: 1rem;
+        --content-max-width: 1400px;
         --breakout-max-width: 85ch;
         --breakout-size: calc(
           (var(--breakout-max-width) - var(--content-max-width)) / 2
@@ -210,6 +203,7 @@ console.log(Country);
       }
 
       a:not([class]) {
+        color: inherit;
         padding: 0.25rem 0.425rem;
         transition: color 0.35s ease;
         border-bottom: 2px dotted transparent;
@@ -224,6 +218,34 @@ console.log(Country);
       .footer-link > span {
         padding: 0.425rem;
         border-radius: 0.25rem;
+      }
+
+      /* .clip-polygon-right {
+        clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+      }
+
+      .clip-polygon-left {
+        clip-path: polygon(
+          100% 0%,
+          75% 50%,
+          100% 100%,
+          25% 100%,
+          0% 50%,
+          25% 0%
+        );
+      } */
+
+      @media (min-width: 640px) {
+        .content-grid {
+          --padding-inline: 2rem;
+        }
+        .sm\:clip-polygon-left {
+          clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+        }
+
+        .sm\:clip-polygon-right {
+          clip-path: polygon(0 0, 75% 0, 100% 100%, 25% 100%);
+        }
       }
     </style>
   </body>

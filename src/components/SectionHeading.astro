@@ -2,8 +2,8 @@
 const {sectionTitle, excerpt, textColor} = Astro.props
 ---
 
-<header class={`lg:pr-10 ${textColor}`}>
-    <h2 class={`text-4xl font-extrabold leading-none text-current`}>
+<header class={`${textColor} mb-4 border-b-4 border-b-current w-max`}>
+    <h2 class={`text-4xl font-extrabold leading-3 text-current`}>
         {sectionTitle}
     </h2>
     <p class="mb-6 max-w-prose text-current">{excerpt}</p>

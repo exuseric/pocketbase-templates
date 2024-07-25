@@ -1,59 +1,86 @@
 ---
-import SectionHeading from "../SectionHeading.astro";
-import CardGrid from "../CardGrid.astro";
 import { Icon } from "astro-icon/components";
+import SectionHeading from "../SectionHeading.astro";
+import CardGrid from "../style_3/CardGrid.astro";
+import CardGrid2 from "../style_2/CardGrid.astro";
 import CustomImage from "../CustomImage.astro";
 import IconGrid from "../IconGrid.astro";
 import Testimonial from "../Testimonial.astro";
-const { page, pageId, highlight, hasValues, values } = Astro.props;
+import ContactSection from "../style_2/ContactSection.astro";
+import Content from "./Content.astro";
+const { page, pageId, highlight, hasValues, values, iframe } = Astro.props;
+
+const hasCards = (page) =>
+  page?.expand?.card_grid && page?.expand?.card_grid?.length > 0;
+const isSmallCardGrid = (pageId) => pageId === "small card grid".trim();
+const isTestimonial = (pageId) => pageId === "testimonial".trim();
+const isEvenGrid = (page) => page.expand.card_grid.length % 2 === 0;
+
+const useNormalCardGrid = (page) =>
+  !isEvenGrid(page) && !isSmallCardGrid(pageId) && !isTestimonial(pageId);
+const useChessCardGrid = (page) =>
+  isEvenGrid(page) && !isSmallCardGrid(pageId) && !isTestimonial(pageId);
 ---
 
 <section
   id={pageId.split(" ").join("-")}
-  class={`${highlight && "bg-primary-main"} scroll-m-24 py-8`}
+  class={`${page?.highlight ? "bg-primary-lighter text-neutral-950" : "bg-transparent text-prinmary-main"} scroll-m-24 py-8 lg:py-24 content-grid`}
 >
-  <div class="container py-4 sm:pt-12">
-    <SectionHeading
-      sectionTitle={page?.title}
-      textColor={`${highlight ? "text-white" : "text-primary-darker"}`}
-    />
-    {
-      page?.expand?.card_grid &&
-        page.expand.card_grid.length > 0 &&
-        pageId !== "small card grid" &&
-        pageId !== "testimonial" && (
-          <CardGrid
-            cards={page?.expand?.card_grid}
-            highlight={highlight}
-            page={pageId}
-          />
-        )
-    }
-    {
-      page?.expand?.card_grid &&
-        page.expand.card_grid.length > 0 &&
-        pageId === "small card grid" && (
-          <IconGrid cards={page?.expand?.card_grid} highlight={highlight} />
-        )
-    }
+  <SectionHeading sectionTitle={page?.title} textColor={`text-current`} />
+  {
+    pageId.includes("about") && page?.excerpt && (
+      <h3 class="text-4xl text-center italic text-primary-main w-full pt-20 pb-24 mx-auto font-black leading-tight relative">
+        <span class="absolute inset-0 -z-[2] w-max h-max">
+          <Icon name="mdi:star" class="size-52 text-neutral-300" />
+        </span>
+          {page?.excerpt}
+      </h3>
+    )
+  }
+  {
+    hasCards(page) && useNormalCardGrid(page) && (
+      <CardGrid
+        cards={page?.expand?.card_grid}
+        highlight={highlight}
+        page={pageId}
+      />
+    )
+  }
+  {
+    hasCards(page) && useChessCardGrid(page) && (
+      <CardGrid2
+        cards={page?.expand?.card_grid}
+        highlight={page?.highlight}
+        page={pageId}
+      />
+    )
+  }
+  {
+    hasCards(page) && isSmallCardGrid(pageId) && (
+      <IconGrid cards={page?.expand?.card_grid} highlight={page?.highlight} />
+    )
+  }
 
-    {
-      page?.expand?.card_grid &&
-        page.expand.card_grid.length > 0 &&
-        pageId === "testimonial" && (
-          <Testimonial cards={page?.expand?.card_grid} highlight={highlight} />
-        )
-    }
-    {
-      page?.content.length > 0 && (
-        <div class="grid gap-10 lg:grid-cols-2 items-center justify-between">
+  {
+    hasCards(page) && isTestimonial(pageId) && (
+      <Testimonial
+        cards={page?.expand?.card_grid}
+        highlight={page?.highlight}
+      />
+    )
+  }
+  {
+    page?.content.length > 0 &&
+      pageId !== "contact us" &&
+      !page?.expand?.multiple_content && (
+        <div class="sm:grid sm:gap-0 sm:grid-cols-2 sm:items-center sm:justify-between">
           <div
-            class={`content max-w-prose py-8 leading-relaxed flex flex-col gap-3 ${highlight && "text-white"}`}
+            class={`content max-w-prose leading-relaxed flex flex-col gap-3 ${highlight && "text-white"}`}
           >
             {page?.content.length > 0 && <slot set:html={page?.content} />}
           </div>
           {page?.expand?.page_image && (
-            <div class="w-full h-full rounded-md overflow-hidden">
+            <div class="w-full h-full overflow-hidden">
               <CustomImage
                 image={page?.expand?.page_image}
                 classes="object-cover w-full h-full"
@@ -63,28 +90,36 @@ const { page, pageId, highlight, hasValues, values } = Astro.props;
           )}
         </div>
       )
-    }
-    {
-      hasValues && (
-        <div class="container max-w-max bg-primary-main text-neutral-50 rounded-md my-12 py-8 px-12 flex items-center justify-center">
-          <ul class="flex flex-row flex-wrap justify-start sm:justify-between items-center sm:flex-row gap-8">
-            {values &&
-              values.split(",").map((value: string) => (
-                <li class="flex flex-col items-start sm:items-center gap-1 py-1 px-0 font-bold rounded-full w-fit">
-                  <Icon
-                    name="mdi:check-circle"
-                    aria-hidden="true"
-                    focusable="false"
-                    class="text-2xl"
-                  />
-                  <span class="text-md">{value}</span>
-                </li>
-              ))}
-          </ul>
-        </div>
-      )
-    }
-  </div>
-</section>
+  }
+  {
+    page?.expand?.multiple_content && pageId !== "contact us" && (
+      <Content page={page} />
+    )
+  }
+  {
+    hasValues && (
+      <div class="container max-w-max bg-primary-main text-neutral-50 rounded-md my-12 py-8 px-12 flex items-center justify-center">
+        <ul class="flex flex-row flex-wrap justify-start sm:justify-between items-center sm:flex-row gap-8">
+          {values &&
+            values.split(",").map((value: string) => (
+              <li class="flex flex-col items-start sm:items-center gap-1 py-1 px-0 font-bold rounded-full w-fit">
+                <Icon
+                  name="mdi:check-circle"
+                  aria-hidden="true"
+                  focusable="false"
+                  class="text-2xl"
+                />
+                <span class="text-md">{value}</span>
+              </li>
+            ))}
+        </ul>
+      </div>
+    )
+  }
 
-<style></style>
+  {
+    pageId === "contact us" && (
+      <ContactSection data={page} highlight={page?.highlight} iframe={iframe} />
+    )
+  }
+</section>

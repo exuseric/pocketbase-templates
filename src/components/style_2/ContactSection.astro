@@ -1,0 +1,98 @@
+---
+import { Icon } from "astro-icon/components";
+import CustomImage from "../CustomImage.astro";
+
+const { data, iframe, highlight } = Astro.props;
+const { title, excerpt, content, expand } = data;
+---
+
+<div class="contact-wrapper">
+  <div class="grid grid-cols-1 sm:grid-cols-12 grid-rows-[300px]">
+    <article
+      class="py-8 flex flex-col justify-center gap-3 px-12 bg-primary-lighter text-white w-full col-[1/7] row-[1/-1] h-full"
+      id="content"
+      style={{ clipPath: "polygon(0 0, 85% 0, 90% 100%, 0% 100%);" }}
+    >
+      <h3 class="text-2xl pb-2 leading-tight max-w-prose">
+        {
+          excerpt
+            .split(",")
+            .map(
+              (txt, idx) =>
+                idx >= 0 &&
+                idx < 2 && <span class="font-black text-2xl">{txt},</span>
+            )
+        }
+        <br />
+        {
+          excerpt
+            .split(",")
+            .map(
+              (txt, idx) =>
+                idx >= 2 && <span class="font-bold text-lg">{txt},</span>
+            )
+        }
+      </h3>
+      {
+        expand?.multiple_content ? (expand?.multiple_content?.map((content) => (
+          <div class="flex flex-col sm:flex-row flex-wrap justify-start items-start sm:items-center my-2 sm:my-0 sm:gap-2 h-max w-full">
+            {content.iconify_icon_name && (
+              <Icon
+                name={content.iconify_icon_name}
+                aria-aria-hidden="true"
+                focusable="false"
+                class="size-[1em] my-2"
+              />
+            )}
+            <slot set:html={content.content} />
+          </div>
+        ))) : (
+            <slot set:html={content} />
+        ) 
+      }
+    </article>
+    <div class="col-[6/-1] row-[1/-1] h-full">
+      {
+        expand?.page_image ? (
+          <CustomImage
+            image={expand?.page_image}
+            classes="object-cover w-full h-full"
+            lazy={true}
+          />
+        ) : (
+          <iframe
+            src={iframe}
+            width="100"
+            height="450"
+            style="border:0;width:100%;height:100%;"
+            allowfullscreen=""
+            title={title}
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          />
+        )
+      }
+    </div>
+  </div>
+    {
+      expand?.page_image ? (
+        <iframe
+          src={iframe}
+          width="100"
+          height="450"
+          style="border:0;width:100%;height:100%;"
+          allowfullscreen=""
+          title={title}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="h-80"
+        />
+      ) : (
+        <CustomImage
+          image={expand?.page_image}
+          classes="object-cover w-full h-full h-80"
+          lazy={true}
+        />
+      )
+    }
+</div>

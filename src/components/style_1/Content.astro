@@ -1,0 +1,31 @@
+---
+import CustomImage from "../CustomImage.astro"
+const {page} = Astro.props
+---
+<div
+  class={`flex flex-col gap-0 lg:grid lg:grid-row-[repeat(${page?.expand?.multiple_content.length},250px)] lg:gap-12`}
+>
+  {
+    page.expand.multiple_content.map((content, idx) => (
+      <div class={`grid gap-3 sm:gap-0 lg:grid-cols-2 lg:items-center lg:justify-between w-full h-inherit sm:bg-neutral-100 sm:p-2  `}>
+        <div
+          class={`${idx % 2 === 0 ? "lg:col-[1/2]" : "lg:col-[2/-1]"} lg:row-[1/-1] lg:h-full w-full lg:flex lg:flex-col lg:justify-center lg:items-center`}
+        >
+          <div class="max-w-prose leading-normal flex flex-col gap-3">
+            <slot set:html={content.content} />
+          </div>
+        </div>
+
+        <div
+          class={`${idx % 2 === 0 ? "sm:clip-polygon-lef lg:col-[2/-1]" : "sm:clip-polygon-righ lg:col-[1/2]"} lg:row-[1/-1] w-full h-inherit overflow-hidden bg-neutral-50 `}
+        >
+          <CustomImage
+            image={content?.expand?.image}
+            classes="object-cover w-full h-full"
+            lazy={true}
+          />
+        </div>
+      </div>
+    ))
+  }
+</div>

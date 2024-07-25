@@ -1,0 +1,31 @@
+---
+import CustomImage from "../CustomImage.astro";
+
+const { cards, highlight, page } = Astro.props;
+---
+
+<div class="mt-8">
+  <div class="grid gap-6 row-gap-5 auto-rows-max  md:grid-cols-2 lg:grid-cols-3">
+    {
+      //@ts-ignore
+      cards &&
+        cards.map((card, idx) => (
+          <article class={`${idx % 2 === 0 ? "grid-rows-[1fr_auto]" : "grid-rows-[auto_1fr]"} text-black overflow-hidden rounded-3xl grid grid-cols-12 gap-0 p-2 bg-neutral-100 outline outline-1 ${highlight ? "outline-primary-light": "outline-neutral-300"}`}>
+            {card.image && (
+              <CustomImage
+                image={card?.expand?.image}
+                classes={`${idx % 2 === 0 ? "row-[1/2]" : "row-[2/-1]"} ${page === "small card grid" ? "object-contain" : "object-cover"} col-[1/-1] w-full h-full rounded-2xl`}
+                lazy={true}
+              />
+            )}
+            <div class={`${idx % 2 === 0 ? "row-[2/-1]" : "row-[1/2]"} px-3 py-8 col-[1/-1] w-full max-w-prose flex flex-col items-start justify-center`}>
+              <h3 class="text-lg m-0 mb-2 font-bold leading-none sm:text-xl">
+                {card.title}
+              </h3>
+              {card.body && <slot set:html={card.body} />}
+            </div>
+          </article>
+        ))
+    }
+  </div>
+</div>

@@ -54,7 +54,7 @@ const { siteName, collection, logo, links } = Astro.props;
           links &&
             links.map((link: any, index: number) => (
               <a
-                class={`capitalize font-bold hover:bg-secondary-main hover:text-white p-4 sm:px-4 sm:py-2 rounded-md ${index === links.length - 1 ? "bg-primary-main text-white" : "text-current"}`}
+                class={`capitalize font-bold hover:bg-secondary-main hover:text-white p-4 sm:px-4 sm:py-2 rounded-md ${index === links.length - 1 ? "bg-primary-dark text-white" : "text-current"}`}
                 href={index === 0 ? "/" : `#${link.split(" ").join("-")}`}
               >
                 {link}
@@ -69,6 +69,7 @@ const { siteName, collection, logo, links } = Astro.props;
 <script>
   const getYPosition = () =>
     window.scrollY || document.documentElement.scrollTop;
+  const matchMedia = () => window.matchMedia("(min-width:640px)").matches;
 
   // Toggle the menu when the button is clicked
   function toggleMenu() {
@@ -101,9 +102,11 @@ const { siteName, collection, logo, links } = Astro.props;
   function navChangeColor() {
     const navBar = document.querySelector(".navbar");
     document.addEventListener("scroll", () => {
-      getYPosition() > navBar.getBoundingClientRect().height
-        ? navBar.setAttribute("navbar-active", "true")
-        : navBar.setAttribute("navbar-active", "false");
+      if (getYPosition() > navBar.getBoundingClientRect().height) {
+        navBar.setAttribute("navbar-active", "true");
+      } else {
+        matchMedia() && navBar.setAttribute("navbar-active", "false");
+      }
     });
   }
 

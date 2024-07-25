@@ -13,6 +13,7 @@
     "@astrojs/check": "^0.7.0",
     "@astrojs/sitemap": "^3.1.5",
     "@astrojs/tailwind": "^5.1.0",
+    "@material-tailwind/react": "^2.1.9",
     "astro": "^4.10.1",
     "astro-icon": "^1.1.0",
     "astro-purgecss": "^4.1.1",

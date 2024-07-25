@@ -5,18 +5,18 @@ import CustomImage from "../CustomImage.astro";
 const { hero, values } = Astro.props;
 ---
 
-<header class="content-grid w-full sm:min-h-screen">
-  <div class="full-width sm:grid sm:grid-cols-2">
+<header class="content-grid w-full h-full">
+  <div class="full-width h-dvh max-h-[800px] sm:grid sm:grid-cols-2 grid-rows-1">
     <CustomImage
       classes="object-cover w-full h-96 sm:h-full"
       image={hero?.expand?.image}
       lazy={false}
     />
     <article
-      class="w-full sm:h-full px-4 py-12 sm:px-12 bg-primary-main text-neutral-50 flex flex-col items-start justify-center gap-2 text-left"
+      class="w-full sm:h-full px-4 py-12 sm:px-12 bg-primary-lighter text-neutral-950 dark:bg-primary-dark dark:text-neutral-50 flex flex-col items-start justify-center gap-2 text-left"
     >
       <ul
-        class="flex flex-row flex-wrap items-center sm:flex-row gap-4 py-2 px-4 rounded-full bg-primary-lighter"
+        class="flex flex-row flex-wrap items-center sm:flex-row gap-4 py-2 px-4 rounded-full bg-primary-dark text-neutral-50 dark:bg-primary-main dark:text-neutral-950"
       >
         {
           values &&
@@ -34,11 +34,11 @@ const { hero, values } = Astro.props;
         }
       </ul>
       <h1
-        class="max-w-prose text-3xl font-bold tracking-tight sm:text-4xl sm:leading-none"
+        class="w-full text-3xl font-bold tracking-tight sm:text-4xl sm:leading-none"
       >
         {hero?.title}
       </h1>
-      <p class="max-w-prose text-base md:text-lg">
+      <p class="w-full max-w-prose text-base md:text-lg">
         {hero?.excerpt}
       </p>
     </article>
