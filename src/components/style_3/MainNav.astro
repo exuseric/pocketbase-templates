@@ -6,16 +6,16 @@ const { siteName, collection, logo, links } = Astro.props;
 ---
 
 <header
-  class="navbar content-grid py-2 bg-white sm:bg-transparent text-primary-darker fixed top-0 z-50 flex flex-wrap sm:justify-start sm:flex-nowrap w-full text-sm transition-colors"
+  class="navbar content-grid py-2 bg-white sm:bg-transparent text-primary-darker fixed  top-0 z-50 flex flex-wrap sm:justify-start sm:flex-nowrap w-full text-sm transition-colors"
   navbar-active="false"
 >
-  <div class="bg-transparent text-current sm:flex items-center justify-between">
+  <div class="bg-transparent text-current sm:flex items-center justify-between w-full">
     <div class="flex items-center justify-between">
       <Logo
         siteName={siteName}
         collection={collection}
         logo={logo}
-        classes="logo size-44 transition-all"
+        classes="logo size-24 transition-all"
       />
 
       <div class="sm:hidden">
@@ -108,16 +108,16 @@ const { siteName, collection, logo, links } = Astro.props;
         // ctaLink.classList.remove("bg-white", "text-primary-darker");
         // ctaLink.classList.add("bg-primary-dark", "text-white");
 
-        logo.classList.add("size-32");
-        logo.classList.remove("size-44");
+        logo.classList.add("size-12");
+        logo.classList.remove("size-24");
       } else {
         matchMedia() && navBar.setAttribute("navbar-active", "false");
         // matchMedia() && nav.classList.add("sm:text-white");
         // ctaLink.classList.add("bg-white", "text-primary-darker");
         // ctaLink.classList.remove("bg-primary-dark", "text-white");
 
-        logo.classList.remove("size-32");
-        logo.classList.add("size-44");
+        logo.classList.remove("size-12");
+        logo.classList.add("size-24");
       }
     });
   }

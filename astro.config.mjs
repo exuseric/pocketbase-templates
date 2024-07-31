@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config';
-import { getPage } from './src/pb';
+import { getPage } from './src/pocket-base';
 import icon from "astro-icon";
 import tailwind from "@astrojs/tailwind";
 import purgecss from "astro-purgecss";

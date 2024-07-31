@@ -1,12 +1,12 @@
 ---
 import { Icon } from "astro-icon/components";
 import SectionHeading from "../SectionHeading.astro";
-import CardGrid from "../style_3/CardGrid.astro";
-import CardGrid2 from "../style_2/CardGrid.astro";
+import CardGrid from "../cards/Style5.astro";
+import CardGrid2 from "../style_3/CardGrid.astro";
 import CustomImage from "../CustomImage.astro";
 import IconGrid from "../IconGrid.astro";
 import Testimonial from "../Testimonial.astro";
-import ContactSection from "../style_2/ContactSection.astro";
+import ContactSection from "../style_1/ContactSection.astro";
 import Content from "./Content.astro";
 const { page, pageId, highlight, hasValues, values, iframe } = Astro.props;
 
@@ -24,14 +24,14 @@ const useChessCardGrid = (page) =>
 
 <section
   id={pageId.split(" ").join("-")}
-  class={`${page?.highlight ? "bg-primary-lighter text-neutral-950" : "bg-transparent text-prinmary-main"} scroll-m-24 py-8 lg:py-24 content-grid`}
+  class={`${page?.highlight ? "full-width content-grid bg-primary-main text-neutral-50" : "bg-transparent text-prinmary-main"} scroll-m-24 py-12 lg:py-24`}
 >
   <SectionHeading sectionTitle={page?.title} textColor={`text-current`} />
   {
     pageId.includes("about") && page?.excerpt && (
-      <h3 class="text-4xl text-center italic text-primary-main w-full pt-20 pb-24 mx-auto font-black leading-tight relative">
-        <span class="absolute inset-0 -z-[2] w-max h-max">
-          <Icon name="mdi:star" class="size-52 text-neutral-300" />
+      <h3 class="text-2xl sm:text-4xl text-center italic text-primary-main w-full pt-20 pb-24 mx-auto font-black leading-tight relative">
+        <span class="absolute inset-auto sm:inset-0 -z-[2] w-max h-max">
+          <Icon name="mdi:star" class="size-52 text-neutral-100" />
         </span>
           {page?.excerpt}
       </h3>

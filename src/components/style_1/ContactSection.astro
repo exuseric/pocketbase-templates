@@ -9,7 +9,7 @@ const hasImage = expand?.page_image
 ---
 <div class={`grid grid-cols-1 sm:grid-cols-2 ${hasImage ? "grid-rows-3 sm:grid-rows-2 sm:p-1 gap-y-1 sm:gap-1" : "grid-rows-2 sm:grid-rows-[80px,1fr] sm:gap-0"}`}>
   <article
-    class={`${hasImage ? "sm:col-[1/2] row-[2/3] sm:row-[1/2] p-4": "sm:row-[2/-1] sm:p-12"} bg-primary-light text-neutral-50 flex flex-col items-start justify-center`}
+    class={`${hasImage ? "sm:col-[1/2] row-[2/3] sm:row-[1/2] p-4": "sm:row-[2/-1] p-4 sm:p-12"} bg-primary-light text-neutral-50 flex flex-col items-start justify-center`}
   >
     <h3 class="mb-4 font-black leading-tight max-w-prose">
       {excerpt.split(",").map((txt, idx) => (
@@ -21,8 +21,8 @@ const hasImage = expand?.page_image
       ))}
     </h3>
     {
-      expand?.multiple_content?.map((content) => (
-        <div class="flex flex-col sm:flex-row flex-wrap justify-start items-start sm:items-center my-2 sm:my-0 sm:gap-2 h-max w-full">
+      expand?.multiple_content ? (expand?.multiple_content?.map((content) => (
+        <div class="flex flex-row flex-wrap justify-start items-start sm:items-center my-2 sm:my-0 sm:gap-2 h-max w-full">
           {content.iconify_icon_name && (
             <Icon
               name={content.iconify_icon_name}
@@ -33,7 +33,7 @@ const hasImage = expand?.page_image
           )}
           <slot set:html={content.content} />
         </div>
-      ))
+      ))) : (<slot set:html={content} />)
     }
   </article>
   <div class={`w-full h-full sm:row-[1/-1] sm:col-[2/-2] sm:z-[2]`}>
